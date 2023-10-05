@@ -19,36 +19,19 @@ header {
     grid-area: header;
 }
 
-.switch-container {
-    width: 90%; 
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    grid-area:container;
-}
-
-
+.switch-container,
 .subscription-container {
-    width: 90%; 
+    width: 90%;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    grid-area:subscription-container;
 }
 
-.switch-list {
-    list-style: none;
-    padding: 0;
-    grid-area: switch-list;
-}
-
+.switch-list,
 .subscription-list {
     list-style: none;
     padding: 0;
-    grid-area: subscription-list;
-    background-color: aqua;
 }
 
 .switch-item {
@@ -70,17 +53,15 @@ header {
     cursor: pointer;
 }
 
-.image{
-    width:10px;
-    height:10px;
+/* Estilos para imágenes (ajusta según sea necesario) */
+.image {
+    width: 10px;
+    height: 10px;
 }
 
 @media (min-width: 992px) {
     body {
         width: 100%;
-    }
-  
-    body {
         grid-template-columns: 1fr 1fr; /* Dos columnas */
         grid-template-areas:
             "header header"
@@ -91,9 +72,6 @@ header {
 @media (min-width: 1200px) {
     body {
         width: 100%;
-    }
-  
-    body {
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
             "header header"
