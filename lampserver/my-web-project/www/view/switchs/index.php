@@ -12,7 +12,7 @@ $view->setVariable("nombre", "Switchs");
 ?>
 
 <div class="switch-container">
-        <h2><?=i18n("Mis Switchs")?></h2>
+        <h2><?=i18n("Mis Switchs")?> <a href="index.php?controller=switchs&amp;action=add&amp;?>"<?= i18n("Edit") ?>><button class="add-button"> +</button></a></h2>
         
         <ul class="switch-list">
 			<?php foreach ($switchs as $switch): ?>
@@ -24,7 +24,7 @@ $view->setVariable("nombre", "Switchs");
 				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?> <img class="image" src="images/circuloRojo.png"></span>
+					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png"><?php else:?><img class="image" src="images/circuloVerde.png"></span><?php endif;?>
 					<button class="toggle-button">Encender</button>
 					<button class="info-button">i</button>
 				    	</li>

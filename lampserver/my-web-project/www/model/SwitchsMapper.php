@@ -33,7 +33,7 @@ class SwitchsMapper {
 	* @return mixed Array of Post instances (without comments)
 	*/
 	public function findAll() {
-		$stmt = $this->db->query("SELECT * FROM switch, users WHERE users.username = switch.alias");
+		$stmt = $this->db->query("SELECT public_id, private_id, nombre, estado, (CURRENT_TIMESTAMP()-tiempo_modificacion) as tiempo_modificacion, alias FROM switch, users WHERE users.username = switch.alias");
 		$switch_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$switchs = array();
@@ -56,7 +56,7 @@ class SwitchsMapper {
 	* if the Post is not found
 	*/
 	public function findById($publicid,$privateid){
-		$stmt = $this->db->prepare("SELECT * FROM switch WHERE public_id=? AND private_id=?");
+		$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, (CURRENT_TIMESTAMP()-tiempo_modificacion) as tiempo_modificacion, alias FROM switch WHERE public_id=? AND private_id=?");
 		$stmt->execute(array($publicid,$privateid));
 		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -73,52 +73,7 @@ class SwitchsMapper {
 		}
 	}
 
-	/**
-	* Loads a Post from the database given its id
-	*
-	* It includes all the comments
-	*
-	* @throws PDOException if a database error occurs
-	* @return Post The Post instances (without comments). NULL
-	* if the Post is not found
-	*/
-	public function findByIdWithComments($publicid, $privateid){
-		$stmt = $this->db->prepare("SELECT
-			P.public_id as 'switch.publicid',
-			P.private_id as 'switch.privateid',
-			P.alias as 'switch.alias',
-			P.tiempo_modificacion as 'switch.ultima_modificacion',
-
-			FROM switch P LEFT OUTER JOIN users U
-			ON P.alias = U.username
-			WHERE
-			P.publicid=? AND P.privateid=?");
-
-			$stmt->execute(array($publicid, $privateid));
-			$post_wt_comments= $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-			/*if (sizeof($post_wt_comments) > 0) {
-				$post = new Post($post_wt_comments[0]["post.id"],
-				$post_wt_comments[0]["post.title"],
-				$post_wt_comments[0]["post.content"],
-				new User($post_wt_comments[0]["post.author"]));
-				$comments_array = array();
-				if ($post_wt_comments[0]["comment.id"]!=null) {
-					foreach ($post_wt_comments as $comment){
-						$comment = new Comment( $comment["comment.id"],
-						$comment["comment.content"],
-						new User($comment["comment.author"]),
-						$post);
-						array_push($comments_array, $comment);
-					}
-				}
-				$post->setComments($comments_array);
-
-				return $post;
-			}else {
-				return NULL;
-			}*/
-		}
+	
 
 		/**
 		* Saves a Post into the database
@@ -127,8 +82,8 @@ class SwitchsMapper {
 		* @throws PDOException if a database error occurs
 		* @return int The mew post id
 		*/
-		public function save(Post $switch) {
-			$stmt = $this->db->prepare("INSERT INTO switch(alias, nombre) values (?,?,?)");
+		public function save(Switchs $switch) {
+			$stmt = $this->db->prepare("INSERT INTO switch(alias, nombre) values (?,?)");
 			$stmt->execute(array($switch->getAlias()->getUsername(), $switch->getNombre()));
 			return $this->db->lastInsertId();
 		}
@@ -141,7 +96,7 @@ class SwitchsMapper {
 		* @return void
 		*/
 		public function update(Switchs $switch) {
-			$stmt = $this->db->prepare("UPDATE posts set nombre=?, estado=? where publicid=? and privateid=?");
+			$stmt = $this->db->prepare("UPDATE switch set nombre=?, estado=? where publicid=? and privateid=?");
 			$stmt->execute(array($switch->getNombre(), $switch->getEstado(), $switch->getPublicId(),$switch->getPrivateId()));
 		}
 

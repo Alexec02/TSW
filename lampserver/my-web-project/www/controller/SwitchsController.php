@@ -135,38 +135,37 @@ class SwitchsController extends BaseController {
 	*/
 	public function add() {
 		if (!isset($this->currentUser)) {
-			throw new Exception("Not in session. Adding posts requires login");
+			throw new Exception("Not in session. Adding switches requires login");
 		}
 
-		$post = new Post();
+		$switch = new Switchs();
 
 		if (isset($_POST["submit"])) { // reaching via HTTP Post...
 
 			// populate the Post object with data form the form
-			$post->setTitle($_POST["title"]);
-			$post->setContent($_POST["content"]);
+			$switch->setNombre($_POST["nombre"]);
 
 			// The user of the Post is the currentUser (user in session)
-			$post->setAuthor($this->currentUser);
+			$switch->setAlias($this->currentUser);
 
 			try {
 				// validate Post object
-				$post->checkIsValidForCreate(); // if it fails, ValidationException
+				$switch->checkIsValidForCreate(); // if it fails, ValidationException
 
 				// save the Post object into the database
-				$this->postMapper->save($post);
+				$this->switchsMapper->save($switch);
 
 				// POST-REDIRECT-GET
 				// Everything OK, we will redirect the user to the list of posts
 				// We want to see a message after redirection, so we establish
 				// a "flash" message (which is simply a Session variable) to be
 				// get in the view after redirection.
-				$this->view->setFlash(sprintf(i18n("Post \"%s\" successfully added."),$post ->getTitle()));
+				$this->view->setFlash(sprintf(i18n("Switch \"%s\" successfully added."),$switch ->getNombre()));
 
 				// perform the redirection. More or less:
 				// header("Location: index.php?controller=posts&action=index")
 				// die();
-				$this->view->redirect("posts", "index");
+				$this->view->redirect("switchs", "index");
 
 			}catch(ValidationException $ex) {
 				// Get the errors array inside the exepction...
@@ -177,10 +176,10 @@ class SwitchsController extends BaseController {
 		}
 
 		// Put the Post object visible to the view
-		$this->view->setVariable("post", $post);
+		$this->view->setVariable("switch", $switch);
 
 		// render the view (/view/posts/add.php)
-		$this->view->render("posts", "add");
+		$this->view->render("switchs", "add");
 
 	}
 

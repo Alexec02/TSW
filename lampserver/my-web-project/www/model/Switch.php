@@ -11,7 +11,7 @@ require_once(__DIR__."/../core/ValidationException.php");
 *
 * @author lipido <lipido@gmail.com>
 */
-class Post {
+class Switchs {
 
 	/**
 	* The public id of this switch

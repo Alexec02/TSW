@@ -144,6 +144,10 @@ class Switchs {
 		if ($this->alias == NULL ) {
 			$errors["alias"] = "alias is mandatory";
 		}
+		
+		if (strlen(trim($this->nombre)) == 0 ) {
+			$errors["nombre"] = "nombre is mandatory";
+		}
 
 		if (sizeof($errors) > 0){
 			throw new ValidationException($errors, "switch is not valid");
