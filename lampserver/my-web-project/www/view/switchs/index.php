@@ -38,3 +38,30 @@ $view->setVariable("nombre", "Switchs");
 </ul>
 </div>
 
+<div class="subscription-container">
+        <h2><?=i18n("Mis Subscripciones")?></h2>
+        
+        <ul class="switch-list">
+			<?php foreach ($switchs as $switch): ?>
+	
+				<?php
+				//show actions ONLY for the author of the post (if logged)
+
+
+				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
+
+					<li class="switch-item" data-state="apagado">
+					<span><?= $switch->getNombre()?> <img class="image" src="images/circuloRojo.png"></span>
+					<span><?= $switch->getAlias()->getUsername()?></span>
+					<span><?= $switch->getUltimaModificacion()?></span
+					<button class="info-button">i</button>
+				    	</li>
+
+			&nbsp;
+
+
+		<?php endif; ?>
+
+<?php endforeach; ?>
+
+
