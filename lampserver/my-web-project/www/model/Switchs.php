@@ -70,7 +70,7 @@ class Switchs {
 	}
 	
 	public function getPrivateId() {
-		return $this->publicid;
+		return $this->privateid;
 	}
 	/**
 	* Gets the title of this post

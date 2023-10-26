@@ -299,7 +299,10 @@ class SwitchsController extends BaseController {
 	* @return void
 	*/
 	public function delete() {
-		if (!isset($_POST["id"])) {
+		if (!isset($_POST["public_id"])) {
+			throw new Exception("id is mandatory");
+		}
+		if (!isset($_POST["private_id"])) {
 			throw new Exception("id is mandatory");
 		}
 		if (!isset($this->currentUser)) {
@@ -307,33 +310,34 @@ class SwitchsController extends BaseController {
 		}
 		
 		// Get the Post object from the database
-		$postid = $_REQUEST["id"];
-		$post = $this->postMapper->findById($postid);
+		$publicid = $_REQUEST["public_id"];
+		$privateid = $_REQUEST["private_id"];
+		$switch = $this->switchsMapper->findById($publicid,$privateid);
 
 		// Does the post exist?
-		if ($post == NULL) {
-			throw new Exception("no such post with id: ".$postid);
+		if ($switch == NULL) {
+			throw new Exception("no such post with id: ".$publicid.$privateid);
 		}
 
 		// Check if the Post author is the currentUser (in Session)
-		if ($post->getAuthor() != $this->currentUser) {
-			throw new Exception("Post author is not the logged user");
+		if ($switch->getAlias() != $this->currentUser) {
+			throw new Exception("Switch author is not the logged user");
 		}
 
 		// Delete the Post object from the database
-		$this->postMapper->delete($post);
+		$this->switchsMapper->delete($switch);
 
 		// POST-REDIRECT-GET
 		// Everything OK, we will redirect the user to the list of posts
 		// We want to see a message after redirection, so we establish
 		// a "flash" message (which is simply a Session variable) to be
 		// get in the view after redirection.
-		$this->view->setFlash(sprintf(i18n("Post \"%s\" successfully deleted."),$post ->getTitle()));
+		$this->view->setFlash(sprintf(i18n("Switch \"%s\" successfully deleted."),$switch ->getNombre()));
 
 		// perform the redirection. More or less:
 		// header("Location: index.php?controller=posts&action=index")
 		// die();
-		$this->view->redirect("posts", "index");
+		$this->view->redirect("switchs", "index");
 
 	}
 }

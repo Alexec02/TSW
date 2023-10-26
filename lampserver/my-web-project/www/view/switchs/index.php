@@ -24,9 +24,29 @@ $view->setVariable("nombre", "Switchs");
 				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png"><?php else:?><img class="image" src="images/circuloVerde.png"></span><?php endif;?>
+					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
 					<button class="toggle-button">Encender</button>
 					<button class="info-button">i</button>
+					<form
+				method="POST"
+				action="index.php?controller=switchs&amp;action=delete"
+				id="delete_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>"
+				style="display: inline"
+				>
+
+				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
+				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
+
+				<a href="#" 
+				onclick="
+				if (confirm('<?= i18n("are you sure?")?>')) {
+					document.getElementById('delete_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()
+				}"
+				><?= i18n("Delete") ?></a>
+
+			</form><br>
+			<label><?=i18n("ID publica ")?><?=$switch->getPublicId()?><label><br>
+			<label><?=i18n(" ID privada ")?><?=$switch->getPrivateId()?><label>
 				    	</li>
 
 			&nbsp;
@@ -51,7 +71,7 @@ $view->setVariable("nombre", "Switchs");
 				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?> <img class="image" src="images/circuloRojo.png"></span>
+					<span><?= $switch->getNombre()?><?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
 					<span><?= $switch->getAlias()->getUsername()?></span>
 					<span><?= $switch->getUltimaModificacion()?></span
 					<button class="info-button">i</button>

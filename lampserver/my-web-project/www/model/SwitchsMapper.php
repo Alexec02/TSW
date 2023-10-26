@@ -96,7 +96,7 @@ class SwitchsMapper {
 		* @return void
 		*/
 		public function update(Switchs $switch) {
-			$stmt = $this->db->prepare("UPDATE switch set nombre=?, estado=? where publicid=? and privateid=?");
+			$stmt = $this->db->prepare("UPDATE switch set nombre=?, estado=? where public_id=? and private_id=?");
 			$stmt->execute(array($switch->getNombre(), $switch->getEstado(), $switch->getPublicId(),$switch->getPrivateId()));
 		}
 
@@ -108,7 +108,7 @@ class SwitchsMapper {
 		* @return void
 		*/
 		public function delete(Switchs $switch) {
-			$stmt = $this->db->prepare("DELETE from switch WHERE publicid=? and privateid=?");
+			$stmt = $this->db->prepare("DELETE from switch WHERE public_id=? and private_id=?");
 			$stmt->execute(array($switch->getPublicId(),$switch->getPrivateId()));
 		}
 
