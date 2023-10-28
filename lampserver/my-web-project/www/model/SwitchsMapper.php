@@ -33,7 +33,7 @@ class SwitchsMapper {
 	* @return mixed Array of Post instances (without comments)
 	*/
 	public function findAll() {
-		$stmt = $this->db->query("SELECT public_id, private_id, nombre, estado, (CURRENT_TIMESTAMP()-tiempo_modificacion) as tiempo_modificacion, alias FROM switch, users WHERE users.username = switch.alias");
+		$stmt = $this->db->query("SELECT public_id, private_id, nombre, estado, (extract(hour_minute from CURRENT_TIMESTAMP())- extract(hour_minute from tiempo_modificacion)) as tiempo_modificacion, alias FROM switch, users WHERE users.username = switch.alias");
 		$switch_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$switchs = array();
@@ -56,7 +56,7 @@ class SwitchsMapper {
 	* if the Post is not found
 	*/
 	public function findById($publicid,$privateid){
-		$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, (CURRENT_TIMESTAMP()-tiempo_modificacion) as tiempo_modificacion, alias FROM switch WHERE public_id=? AND private_id=?");
+		$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, (extract(hour_minute from CURRENT_TIMESTAMP())- extract(hour_minute from tiempo_modificacion)) as tiempo_modificacion, alias FROM switch WHERE public_id=? AND private_id=?");
 		$stmt->execute(array($publicid,$privateid));
 		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -96,8 +96,8 @@ class SwitchsMapper {
 		* @return void
 		*/
 		public function update(Switchs $switch) {
-			$stmt = $this->db->prepare("UPDATE switch set nombre=?, estado=? where public_id=? and private_id=?");
-			$stmt->execute(array($switch->getNombre(), $switch->getEstado(), $switch->getPublicId(),$switch->getPrivateId()));
+			$stmt = $this->db->prepare("UPDATE switch set estado=? where public_id=? and private_id=?");
+			$stmt->execute(array($switch->getEstado(), $switch->getPublicId(),$switch->getPrivateId()));
 		}
 
 		/**

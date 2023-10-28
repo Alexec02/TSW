@@ -6,10 +6,10 @@ $view = ViewManager::getInstance();
 $view->setVariable("title", "Login");
 $errors = $view->getVariable("errors");
 ?>
-<header>
+
 <h1><?= i18n("Login") ?></h1>
 <?= isset($errors["general"])?$errors["general"]:"" ?>
-</header>
+
 
 <body>
 <div class= "auth-container" >

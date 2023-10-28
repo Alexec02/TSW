@@ -36,6 +36,12 @@ array(
 	"content is mandatory" => "El contenido es obligatorio",
 	"title is mandatory" => "El título es obligatorio",
 	"author is mandatory" => "El autor es obligatorio",
-	"post is not valid" => "El artículo no es válido"
+	"post is not valid" => "El artículo no es válido", 
+	"My Switchs" => "Mis Switchs", 
+	"My Subscriptions" => "Mis Subscripciones", 
+	"Switch on" => "Encender",
+	"Switch off" => "Apagar",
+	"Public ID: " => "ID Pública: ",
+	"Private ID: " => "ID Privada: "
 )
 ?>

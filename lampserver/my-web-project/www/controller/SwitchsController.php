@@ -215,53 +215,54 @@ class SwitchsController extends BaseController {
 	* @return void
 	*/
 	public function edit() {
-		if (!isset($_REQUEST["id"])) {
-			throw new Exception("A post id is mandatory");
+		if (!isset($_POST["public_id"])) {
+			throw new Exception("id is mandatory");
 		}
-
+		if (!isset($_POST["private_id"])) {
+			throw new Exception("id is mandatory");
+		}
 		if (!isset($this->currentUser)) {
 			throw new Exception("Not in session. Editing posts requires login");
 		}
 
 
 		// Get the Post object from the database
-		$postid = $_REQUEST["id"];
-		$post = $this->postMapper->findById($postid);
+		$publicid = $_REQUEST["public_id"];
+		$privateid = $_REQUEST["private_id"];
+		$switch = $this->switchsMapper->findById($publicid,$privateid);
 
 		// Does the post exist?
-		if ($post == NULL) {
-			throw new Exception("no such post with id: ".$postid);
+		if ($switch == NULL) {
+			throw new Exception("no such switch with id: ".$publicid.$privateid);
 		}
 
 		// Check if the Post author is the currentUser (in Session)
-		if ($post->getAuthor() != $this->currentUser) {
-			throw new Exception("logged user is not the author of the post id ".$postid);
+		if ($switch->getAlias() != $this->currentUser) {
+			throw new Exception("logged user is not the author of the switch id ".$publicid.$privateid);
 		}
 
-		if (isset($_POST["submit"])) { // reaching via HTTP Post...
+		// reaching via HTTP Post...
 
 			// populate the Post object with data form the form
-			$post->setTitle($_POST["title"]);
-			$post->setContent($_POST["content"]);
-
+			$switch->setEstado($_POST["estado"]);
 			try {
 				// validate Post object
-				$post->checkIsValidForUpdate(); // if it fails, ValidationException
+				$switch->checkIsValidForUpdate(); // if it fails, ValidationException
 
 				// update the Post object in the database
-				$this->postMapper->update($post);
+				$this->switchsMapper->update($switch);
 
 				// POST-REDIRECT-GET
 				// Everything OK, we will redirect the user to the list of posts
 				// We want to see a message after redirection, so we establish
 				// a "flash" message (which is simply a Session variable) to be
 				// get in the view after redirection.
-				$this->view->setFlash(sprintf(i18n("Post \"%s\" successfully updated."),$post ->getTitle()));
+				$this->view->setFlash(sprintf(i18n("Switch \"%s\" successfully updated."),$switch ->getNombre()));
 
 				// perform the redirection. More or less:
 				// header("Location: index.php?controller=posts&action=index")
 				// die();
-				$this->view->redirect("posts", "index");
+				$this->view->redirect("switchs", "index");
 
 			}catch(ValidationException $ex) {
 				// Get the errors array inside the exepction...
@@ -269,13 +270,6 @@ class SwitchsController extends BaseController {
 				// And put it to the view as "errors" variable
 				$this->view->setVariable("errors", $errors);
 			}
-		}
-
-		// Put the Post object visible to the view
-		$this->view->setVariable("post", $post);
-
-		// render the view (/view/posts/add.php)
-		$this->view->render("posts", "edit");
 	}
 
 	/**

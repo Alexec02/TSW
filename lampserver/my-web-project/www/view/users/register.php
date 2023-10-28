@@ -6,8 +6,12 @@ $view = ViewManager::getInstance();
 $errors = $view->getVariable("errors");
 $user = $view->getVariable("user");
 $view->setVariable("title", "Register");
+
 ?>
 <h1><?= i18n("Register")?></h1>
+<link rel="stylesheet" href= "css/login.css">
+<body >
+	<div class = "auth-container" >
 <form action="index.php?controller=users&amp;action=register" method="POST">
 	<?= i18n("Username")?>: <input type="text" name="username"
 	value="<?= $user->getUsername() ?>">
@@ -23,4 +27,6 @@ $view->setVariable("title", "Register");
 	<?= isset($errors["email"])?i18n($errors["email"]):"" ?><br>
 
 	<input type="submit" value="<?= i18n("Register")?>">
+</div>
+</body>
 </form>

@@ -9,10 +9,10 @@ $currentuser = $view->getVariable("currentusername");
 
 $view->setVariable("nombre", "Switchs");
 
-?>
+?><link rel="stylesheet" href="css/prueba.css" type="text/css">
 
 <div class="switch-container">
-        <h2><?=i18n("Mis Switchs")?> <a href="index.php?controller=switchs&amp;action=add&amp;?>"<?= i18n("Edit") ?>><button class="add-button"> +</button></a></h2>
+        <h2><?=i18n("My Switchs")?> <a href="index.php?controller=switchs&amp;action=add&amp;?>"<?= i18n("Edit") ?>><button class="add-button"> +</button></a></h2>
         
         <ul class="switch-list">
 			<?php foreach ($switchs as $switch): ?>
@@ -24,8 +24,33 @@ $view->setVariable("nombre", "Switchs");
 				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
-					<button class="toggle-button">Encender</button>
+					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px> <form
+				method="POST"
+				action="index.php?controller=switchs&amp;action=edit"
+				id="edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>"
+				style="display: inline"
+				>
+
+				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
+				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
+				<input type="hidden" name="estado" value=1>
+				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch on")?></button>
+
+					</form>
+					<?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px><form
+				method="POST"
+				action="index.php?controller=switchs&amp;action=edit"
+				id="edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>"
+				style="display: inline"
+				>
+
+				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
+				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
+				<input type="hidden" name="estado" value=0>
+				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch off")?></button>
+
+					</form></span><?php endif;?>
+					
 					<button class="info-button">i</button>
 					<form
 				method="POST"
@@ -45,8 +70,8 @@ $view->setVariable("nombre", "Switchs");
 				><?= i18n("Delete") ?></a>
 
 			</form><br>
-			<label><?=i18n("ID publica ")?><?=$switch->getPublicId()?><label><br>
-			<label><?=i18n(" ID privada ")?><?=$switch->getPrivateId()?><label>
+			<label><?=i18n("Public ID: ")?><?=$switch->getPublicId()?><label><br>
+			<label><?=i18n("Private ID: ")?><?=$switch->getPrivateId()?><label>
 				    	</li>
 
 			&nbsp;
@@ -59,7 +84,7 @@ $view->setVariable("nombre", "Switchs");
 </div>
 
 <div class="subscription-container">
-        <h2><?=i18n("Mis Subscripciones")?></h2>
+        <h2><?=i18n("My Subscriptions")?></h2>
         
         <ul class="switch-list">
 			<?php foreach ($switchs as $switch): ?>
@@ -71,10 +96,10 @@ $view->setVariable("nombre", "Switchs");
 				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?><?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
+					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
 					<span><?= $switch->getAlias()->getUsername()?></span>
-					<span><?= $switch->getUltimaModificacion()?></span
-					<button class="info-button">i</button>
+					<span><?= $switch->getUltimaModificacion()?></span>
+					
 				    	</li>
 
 			&nbsp;
