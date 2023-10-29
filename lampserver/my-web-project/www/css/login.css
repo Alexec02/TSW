@@ -1,14 +1,26 @@
+
+
 /* Estilos para el título */
-h1 {
-    margin-top: 20px; /* Espacio superior para centrar el título verticalmente */
-    text-align: center; /* Centrar el título horizontalmente */
-    font-size: 24px; /* Tamaño de fuente (ajusta según tus preferencias) */
+.title {
+    width: 90%;
+    max-width: 500px;
+    background-color: #007bff; /* Mismo color de fondo que el botón Entrar */
+    color: #fff; /* Texto en color claro */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Alinea el contenido en el centro horizontal */
+    margin: 20px auto 0; /* Separación superior y centrado horizontal */
+    padding: 20px;
+    font-size: 24px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    font-family: Arial, sans-serif; /* Fuente de letra preferida */
+    border-top-left-radius: 10px; /* Bordes superiores redondeados */
+    border-top-right-radius: 10px; /* Bordes superiores redondeados */
 }
 
 .auth-container {
     width: 90%;
     max-width: 500px;
-    background-color: #fff;
+    background-color: #fff; /* Color de fondo del auth-container */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     text-align: center; /* Alinea el contenido en el centro horizontal */
     margin: 0 auto; /* Centra el contenedor horizontalmente */
@@ -16,10 +28,13 @@ h1 {
     display: flex; /* Usa flexbox para centrar verticalmente */
     flex-direction: column; /* Alinea el contenido en el centro vertical */
     justify-content: center; /* Alinea el contenido en el centro vertical */
+    border-bottom-left-radius: 10px; /* Bordes inferiores redondeados */
+    border-bottom-right-radius: 10px; /* Bordes inferiores redondeados */
 }
 
+
 /* Formulario de inicio de sesión */
-.login-form {
+form {
     display: flex;
     flex-direction: column;
     align-items: center;

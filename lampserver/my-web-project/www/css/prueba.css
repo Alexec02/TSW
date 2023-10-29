@@ -40,7 +40,7 @@
   }
   
 
-/* Estilos para imágenes (ajusta según sea necesario) */
+/* Estilos para el botón de encendido/apagado */
 .toggle-button {
     background-color: #007bff;
     color: #fff;
@@ -49,7 +49,15 @@
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s; /* Agregamos una transición suave */
+
 }
+
+/* Cambiar los estilos al pasar el mouse */
+.toggle-button:hover {
+    background-color: #0056b3; /* Cambiamos el color de fondo al poner el ratón encima */
+}
+
 
 /* Estilos para las imágenes */
 .image {

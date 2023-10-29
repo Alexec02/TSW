@@ -8,9 +8,10 @@ $user = $view->getVariable("user");
 $view->setVariable("title", "Register");
 
 ?>
-<h1><?= i18n("Register")?></h1>
-<link rel="stylesheet" href= "css/login.css">
 <body >
+<div class= "title"><?= i18n("Register")?></div>
+<link rel="stylesheet" href= "css/login.css">
+
 	<div class = "auth-container" >
 <form action="index.php?controller=users&amp;action=register" method="POST">
 	<?= i18n("Username")?>: <input type="text" name="username"

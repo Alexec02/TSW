@@ -7,11 +7,14 @@ $view->setVariable("title", "Login");
 $errors = $view->getVariable("errors");
 ?>
 
-<h1><?= i18n("Login") ?></h1>
+<body>
+
+<div class="page-container">
+<div class= "title"><?= i18n("Login") ?></div>
 <?= isset($errors["general"])?$errors["general"]:"" ?>
 
 
-<body>
+
 <div class= "auth-container" >
 <form action="index.php?controller=users&amp;action=login" method="POST">
 	<?= i18n("Username")?>: <input type="text" name="username">
@@ -19,9 +22,11 @@ $errors = $view->getVariable("errors");
 	<input type="submit" value="<?= i18n("Login") ?>">
 </form>
 </div>
-</body>
+
 
 <p><?= i18n("Not user?")?> <a href="index.php?controller=users&amp;action=register"><?= i18n("Register here!")?></a></p>
+
+</body>
 <?php $view->moveToFragment("css");?>
 <link rel="stylesheet" href= "css/login.css">
 <?php $view->moveToDefaultFragment(); ?>
