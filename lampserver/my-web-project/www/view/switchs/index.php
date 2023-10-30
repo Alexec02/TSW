@@ -5,6 +5,7 @@ require_once(__DIR__."/../../core/ViewManager.php");
 $view = ViewManager::getInstance();
 
 $switchs = $view->getVariable("switchs");
+$subscriptions = $view->getVariable("subscriptions");
 $currentuser = $view->getVariable("currentusername");
 
 $view->setVariable("nombre", "Switchs");
@@ -87,18 +88,18 @@ $view->setVariable("nombre", "Switchs");
         <h2><?=i18n("My Subscriptions")?></h2>
         
         <ul class="switch-list">
-			<?php foreach ($switchs as $switch): ?>
+			<?php foreach ($subscriptions as $subscription): ?>
 	
 				<?php
 				//show actions ONLY for the author of the post (if logged)
 
 
-				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
+				if (isset($currentuser) && $currentuser == $subscription->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
-					<span><?= $switch->getAlias()->getUsername()?></span>
-					<span><?= $switch->getUltimaModificacion()?></span>
+					<span><?= $subscription->getSwitchs()->getNombre()?> <?php if($subscription->getSwitchs()->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
+					<span><?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
+					<span><?= $subscription->getSwitchs()->getUltimaModificacion()?></span>
 					
 				    	</li>
 

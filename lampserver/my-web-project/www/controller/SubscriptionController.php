@@ -2,13 +2,9 @@
 //file: controller/PostController.php
 
 require_once(__DIR__."/../model/Comment.php");
-require_once(__DIR__."/../model/Switchs.php");
-require_once(__DIR__."/../model/SwitchsMapper.php");
-require_once(__DIR__."/../model/User.php");
-
-
 require_once(__DIR__."/../model/Subscription.php");
 require_once(__DIR__."/../model/SubscriptionMapper.php");
+require_once(__DIR__."/../model/User.php");
 
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
@@ -20,7 +16,7 @@ require_once(__DIR__."/../controller/BaseController.php");
 *
 * @author lipido <lipido@gmail.com>
 */
-class SwitchsController extends BaseController {
+class SubscriptionController extends BaseController {
 
 	/**
 	* Reference to the PostMapper to interact
@@ -28,16 +24,12 @@ class SwitchsController extends BaseController {
 	*
 	* @var PostMapper
 	*/
-	
 	private $subscriptionMapper;
-	private $switchsMapper;
 
 	public function __construct() {
 		parent::__construct();
 
 		$this->subscriptionMapper = new SubscriptionMapper();
-
-		$this->switchsMapper = new SwitchsMapper();
 	}
 
 	/**
@@ -54,11 +46,9 @@ class SwitchsController extends BaseController {
 	public function index() {
 
 		// obtain the data from the database
-		$switchs = $this->switchsMapper->findAll();
 		$subscriptions = $this->subscriptionMapper->findAll();
+
 		// put the array containing Post object to the view
-		$this->view->setVariable("switchs", $switchs);
-		
 		$this->view->setVariable("subscriptions", $subscriptions);
 
 		// render the view (/view/posts/index.php)
@@ -193,94 +183,7 @@ class SwitchsController extends BaseController {
 
 	}
 
-	/**
-	* Action to edit a post
-	*
-	* When called via GET, it shows an edit form
-	* including the current data of the Post.
-	* When called via POST, it modifies the post in the
-	* database.
-	*
-	* The expected HTTP parameters are:
-	* <ul>
-	* <li>id: Id of the post (via HTTP POST and GET)</li>
-	* <li>title: Title of the post (via HTTP POST)</li>
-	* <li>content: Content of the post (via HTTP POST)</li>
-	* </ul>
-	*
-	* The views are:
-	* <ul>
-	* <li>posts/edit: If this action is reached via HTTP GET (via include)</li>
-	* <li>posts/index: If post was successfully edited (via redirect)</li>
-	* <li>posts/edit: If validation fails (via include). Includes these view variables:</li>
-	* <ul>
-	*	<li>post: The current Post instance, empty or being added (but not validated)</li>
-	*	<li>errors: Array including per-field validation errors</li>
-	* </ul>
-	* </ul>
-	* @throws Exception if no id was provided
-	* @throws Exception if no user is in session
-	* @throws Exception if there is not any post with the provided id
-	* @throws Exception if the current logged user is not the author of the post
-	* @return void
-	*/
-	public function edit() {
-		if (!isset($_POST["public_id"])) {
-			throw new Exception("id is mandatory");
-		}
-		if (!isset($_POST["private_id"])) {
-			throw new Exception("id is mandatory");
-		}
-		if (!isset($this->currentUser)) {
-			throw new Exception("Not in session. Editing posts requires login");
-		}
 
-
-		// Get the Post object from the database
-		$publicid = $_REQUEST["public_id"];
-		$privateid = $_REQUEST["private_id"];
-		$switch = $this->switchsMapper->findById($publicid,$privateid);
-
-		// Does the post exist?
-		if ($switch == NULL) {
-			throw new Exception("no such switch with id: ".$publicid.$privateid);
-		}
-
-		// Check if the Post author is the currentUser (in Session)
-		if ($switch->getAlias() != $this->currentUser) {
-			throw new Exception("logged user is not the author of the switch id ".$publicid.$privateid);
-		}
-
-		// reaching via HTTP Post...
-
-			// populate the Post object with data form the form
-			$switch->setEstado($_POST["estado"]);
-			try {
-				// validate Post object
-				$switch->checkIsValidForUpdate(); // if it fails, ValidationException
-
-				// update the Post object in the database
-				$this->switchsMapper->update($switch);
-
-				// POST-REDIRECT-GET
-				// Everything OK, we will redirect the user to the list of posts
-				// We want to see a message after redirection, so we establish
-				// a "flash" message (which is simply a Session variable) to be
-				// get in the view after redirection.
-				$this->view->setFlash(sprintf(i18n("Switch \"%s\" successfully updated."),$switch ->getNombre()));
-
-				// perform the redirection. More or less:
-				// header("Location: index.php?controller=posts&action=index")
-				// die();
-				$this->view->redirect("switchs", "index");
-
-			}catch(ValidationException $ex) {
-				// Get the errors array inside the exepction...
-				$errors = $ex->getErrors();
-				// And put it to the view as "errors" variable
-				$this->view->setVariable("errors", $errors);
-			}
-	}
 
 	/**
 	* Action to delete a post
