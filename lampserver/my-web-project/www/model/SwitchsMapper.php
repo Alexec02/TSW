@@ -32,15 +32,16 @@ class SwitchsMapper {
 	* @throws PDOException if a database error occurs
 	* @return mixed Array of Post instances (without comments)
 	*/
+	//(extract(hour_minute from CURRENT_TIMESTAMP())- extract(hour_minute from tiempo_modificacion)) as tiempo_modificacion
 	public function findAll() {
-		$stmt = $this->db->query("SELECT public_id, private_id, nombre, estado, (extract(hour_minute from CURRENT_TIMESTAMP())- extract(hour_minute from tiempo_modificacion)) as tiempo_modificacion, alias FROM switch, users WHERE users.username = switch.alias");
+		$stmt = $this->db->query("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, encendido_hasta, descripcion, alias FROM switch, users WHERE users.username = switch.alias");
 		$switch_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$switchs = array();
 
 		foreach ($switch_db as $switch) {
 			$alias = new User($switch["alias"]);
-			array_push($switchs, new Switchs($switch["public_id"], $switch["private_id"], $switch["nombre"], $switch["estado"], $switch["tiempo_modificacion"], $alias));
+			array_push($switchs, new Switchs($switch["public_id"], $switch["private_id"], $switch["nombre"], $switch["descripcion"], $switch["estado"], $switch["tiempo_modificacion"], $switch["encendido_hasta"], $alias));
 		}
 
 		return $switchs;
@@ -56,7 +57,7 @@ class SwitchsMapper {
 	* if the Post is not found
 	*/
 	public function findById($publicid,$privateid){
-		$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, (extract(hour_minute from CURRENT_TIMESTAMP())- extract(hour_minute from tiempo_modificacion)) as tiempo_modificacion, alias FROM switch WHERE public_id=? AND private_id=?");
+		$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, encendido_hasta, descripcion, alias FROM switch WHERE public_id=? AND private_id=?");
 		$stmt->execute(array($publicid,$privateid));
 		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -65,8 +66,10 @@ class SwitchsMapper {
 			$switch["public_id"],
 			$switch["private_id"],
 			$switch["nombre"],
+			$switch["descripcion"],
 			$switch["estado"],
 			$switch["tiempo_modificacion"],
+			$switch["encendido_hasta"],
 			new User($switch["alias"]));
 		} else {
 			return NULL;
@@ -83,8 +86,8 @@ class SwitchsMapper {
 		* @return int The mew post id
 		*/
 		public function save(Switchs $switch) {
-			$stmt = $this->db->prepare("INSERT INTO switch(alias, nombre) values (?,?)");
-			$stmt->execute(array($switch->getAlias()->getUsername(), $switch->getNombre()));
+			$stmt = $this->db->prepare("INSERT INTO switch(alias, nombre, descripcion) values (?,?,?)");
+			$stmt->execute(array($switch->getAlias()->getUsername(), $switch->getNombre(),$switch->getDescripcion()));
 			return $this->db->lastInsertId();
 		}
 
@@ -96,8 +99,13 @@ class SwitchsMapper {
 		* @return void
 		*/
 		public function update(Switchs $switch) {
-			$stmt = $this->db->prepare("UPDATE switch set estado=? where public_id=? and private_id=?");
-			$stmt->execute(array($switch->getEstado(), $switch->getPublicId(),$switch->getPrivateId()));
+			
+			$horas=floor($switch->getEncendidoHasta()/60);
+			$minutos=$switch->getEncendidoHasta()%60;
+			$stmt = $this->db->prepare("UPDATE switch SET estado=?, tiempo_modificacion=CURRENT_TIMESTAMP(), encendido_hasta=tiempo_modificacion + INTERVAL ? HOUR + INTERVAL ? MINUTE WHERE public_id=? AND private_id=?");
+$stmt->execute(array($switch->getEstado(), $horas, $minutos, $switch->getPublicId(), $switch->getPrivateId()));
+
+			
 		}
 
 		/**

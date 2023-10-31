@@ -35,6 +35,7 @@ $view->setVariable("nombre", "Switchs");
 				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
 				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
 				<input type="hidden" name="estado" value=1>
+				<label><?=i18n("Time on ")?></label><input type=number name="encendido_hasta" value=60 min=1 max=120>
 				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch on")?></button>
 
 					</form>
@@ -48,6 +49,7 @@ $view->setVariable("nombre", "Switchs");
 				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
 				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
 				<input type="hidden" name="estado" value=0>
+				<input type="hidden" name="encendido_hasta" value=0>
 				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch off")?></button>
 
 					</form></span><?php endif;?>
@@ -100,7 +102,24 @@ $view->setVariable("nombre", "Switchs");
 					<span><?= $subscription->getSwitchs()->getNombre()?> <?php if($subscription->getSwitchs()->getEstado()==0): ?><img class="image" src="images/circuloRojo.png" width=10px height=10px><?php else:?><img class="image" src="images/circuloVerde.png"width=10px height=10px></span><?php endif;?>
 					<span><?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
 					<span><?= $subscription->getSwitchs()->getUltimaModificacion()?></span>
-					
+					<form
+				method="POST"
+				action="index.php?controller=subscription&amp;action=delete"
+				id="delete_subscription_<?= $subscription->getSwitchs()->getPublicId() ?>_<?=$subscription->getSwitchs()->getPrivateId()?>"
+				style="display: inline"
+				>
+
+				<input type="hidden" name="public_id" value="<?= $subscription->getSwitchs()->getPublicId() ?>">
+				<input type="hidden" name="private_id" value="<?= $subscription->getSwitchs()->getPrivateId() ?>">
+
+				<a href="#" 
+				onclick="
+				if (confirm('<?= i18n("are you sure?")?>')) {
+					document.getElementById('delete_subscription_<?= $subscription->getSwitchs()->getPublicId() ?>_<?=$subscription->getSwitchs()->getPrivateId()?>').submit()
+				}"
+				><?= i18n("Delete") ?></a>
+
+			</form>
 				    	</li>
 
 			&nbsp;

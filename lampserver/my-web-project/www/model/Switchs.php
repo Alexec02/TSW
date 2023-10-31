@@ -40,6 +40,10 @@ class Switchs {
 	private $estado;
 	
 	private $ultima_modificacion;
+	
+	private $encendido_hasta;
+	
+	private $descripcion;
 
 
 	/**
@@ -51,13 +55,15 @@ class Switchs {
 	* @param User $author The author of the post
 	* @param mixed $comments The list of comments
 	*/
-	public function __construct($publicid=NULL, $privateid=NULL, $nombre=NULL, $estado=NULL, $ultima_modificacion=NULL, User $alias=NULL) {
+	public function __construct($publicid=NULL, $privateid=NULL, $nombre=NULL,  $descripcion=NULL, $estado=NULL, $ultima_modificacion=NULL, $encendido_hasta=NULL, User $alias=NULL) {
 		$this->publicid = $publicid;
 		$this->privateid = $privateid;
 		$this->nombre = $nombre;
 		$this->alias = $alias;
 		$this->estado = $estado;
 		$this->ultima_modificacion=$ultima_modificacion;
+		$this->descripcion = $descripcion;
+		$this->encendidos_hasta = $encendido_hasta; 
 	}
 
 	/**
@@ -123,7 +129,18 @@ class Switchs {
 	public function setUltimaModificacion(Timestamp $ultima_modificacion) {
 		$this->ultima_modificacion = $ultima_modificacion;
 	}
-
+	public function getEncendidoHasta(){
+		return $this->encendido_hasta;
+	}
+	public function setEncendidoHasta(String $encendido_hasta) {
+		$this->encendido_hasta = $encendido_hasta;
+	}
+	public function getDescripcion(){
+		return $this->descripcion;
+	}
+	public function setDescripcion(String $Descripcion) {
+		$this->descripcion = $Descripcion;
+	}
 	/**
 	* Checks if the current instance is valid
 	* for being updated in the database.

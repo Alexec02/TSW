@@ -157,6 +157,8 @@ class SwitchsController extends BaseController {
 
 			// The user of the Post is the currentUser (user in session)
 			$switch->setAlias($this->currentUser);
+			
+			$switch->setDescripcion($_POST["descripcion"]);
 
 			try {
 				// validate Post object
@@ -255,6 +257,7 @@ class SwitchsController extends BaseController {
 
 			// populate the Post object with data form the form
 			$switch->setEstado($_POST["estado"]);
+			$switch->setEncendidoHasta($_POST["encendido_hasta"]);
 			try {
 				// validate Post object
 				$switch->checkIsValidForUpdate(); // if it fails, ValidationException
