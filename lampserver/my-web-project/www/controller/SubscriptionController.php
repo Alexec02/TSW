@@ -233,7 +233,7 @@ class SubscriptionController extends BaseController {
 		// We want to see a message after redirection, so we establish
 		// a "flash" message (which is simply a Session variable) to be
 		// get in the view after redirection.
-		$this->view->setFlash(sprintf(i18n("Subscription \"%s\" successfully deleted.",$subscripcion->getSwitchs() ->getNombre())));
+		$this->view->setFlash(sprintf(i18n("Subscription \"%s\" successfully deleted."),$subscripcion->getSwitchs() ->getNombre()));
 
 		// perform the redirection. More or less:
 		// header("Location: index.php?controller=posts&action=index")

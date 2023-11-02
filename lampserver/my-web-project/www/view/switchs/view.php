@@ -25,7 +25,7 @@ $view->setVariable("title", "View Switch");
 <?php $publicid = isset($_GET["public_id"]) ? $_GET["public_id"] : null;
 $privateid = isset($_GET["private_id"]) ? $_GET["private_id"] : null;
 if($switch->getPublicId()==$publicid):
-	if (isset($this->currentUser)):?>
+	if(!isset($this->currentUser)):?>
 <form
 				method="POST"
 				action="index.php?controller=subscription&amp;action=add"
