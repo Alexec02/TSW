@@ -135,32 +135,26 @@ class SubscriptionController extends BaseController {
 	*/
 	public function add() {
 		if (!isset($this->currentUser)) {
-			throw new Exception("Not in session. Adding switches requires login");
+			throw new Exception("Not in session. Adding subscriptions requires login");
 		}
 
-		$switch = new Switchs();
 
-		if (isset($_POST["submit"])) { // reaching via HTTP Post...
-
-			// populate the Post object with data form the form
-			$switch->setNombre($_POST["nombre"]);
-
-			// The user of the Post is the currentUser (user in session)
-			$switch->setAlias($this->currentUser);
+			$switch = new Switchs($_POST["public_id"],$_POST["private_id"]);
+			$subscription = new Subscription($switch,$this->currentUser);
 
 			try {
 				// validate Post object
-				$switch->checkIsValidForCreate(); // if it fails, ValidationException
+				$subscription->checkIsValidForCreate(); // if it fails, ValidationException
 
 				// save the Post object into the database
-				$this->switchsMapper->save($switch);
+				$this->subscriptionMapper->save($subscription);
 
 				// POST-REDIRECT-GET
 				// Everything OK, we will redirect the user to the list of posts
 				// We want to see a message after redirection, so we establish
 				// a "flash" message (which is simply a Session variable) to be
 				// get in the view after redirection.
-				$this->view->setFlash(sprintf(i18n("Switch \"%s\" successfully added."),$switch ->getNombre()));
+				$this->view->setFlash(i18n("Sucesfully subscribed to Switch."));
 
 				// perform the redirection. More or less:
 				// header("Location: index.php?controller=posts&action=index")
@@ -173,13 +167,13 @@ class SubscriptionController extends BaseController {
 				// And put it to the view as "errors" variable
 				$this->view->setVariable("errors", $errors);
 			}
-		}
+		
 
 		// Put the Post object visible to the view
-		$this->view->setVariable("switch", $switch);
+		$this->view->setVariable("subscription", $subscription);
 
 		// render the view (/view/posts/add.php)
-		$this->view->render("switchs", "add");
+		$this->view->render("switchs", "view");
 
 	}
 
@@ -239,7 +233,7 @@ class SubscriptionController extends BaseController {
 		// We want to see a message after redirection, so we establish
 		// a "flash" message (which is simply a Session variable) to be
 		// get in the view after redirection.
-		$this->view->setFlash(sprintf(i18n("Subscription \"%s\" successfully deleted.".$publicid.$privateid.$subscripcion->getAlias()->getUsername()),$subscripcion->getSwitchs() ->getNombre()));
+		$this->view->setFlash(sprintf(i18n("Subscription \"%s\" successfully deleted.",$subscripcion->getSwitchs() ->getNombre())));
 
 		// perform the redirection. More or less:
 		// header("Location: index.php?controller=posts&action=index")

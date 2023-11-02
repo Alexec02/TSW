@@ -90,29 +90,33 @@ class SwitchsController extends BaseController {
 	*
 	*/
 	public function view(){
-		if (!isset($_GET["id"])) {
-			throw new Exception("id is mandatory");
+		// Obtener los valores de public_id y private_id de la URL
+		if (!isset($_GET["public_id"]) && !isset($_GET["private_id"])) {
+			throw new Exception("public_id or private_id is mandatory");
 		}
 
-		$postid = $_GET["id"];
+		$publicid = isset($_GET["public_id"]) ? $_GET["public_id"] : null;
+		$privateid = isset($_GET["private_id"]) ? $_GET["private_id"] : null;
 
-		// find the Post object in the database
-		$post = $this->postMapper->findByIdWithComments($postid);
+		if ($publicid === null && $privateid === null) {
+			throw new Exception("public_id or private_id is mandatory");
+		}
+		$switch = $this->switchsMapper->findById($publicid,$privateid);
 
-		if ($post == NULL) {
-			throw new Exception("no such post with id: ".$postid);
+		if ($switch == NULL) {
+			throw new Exception("no such post with id: ".$publicid.$privateid);
 		}
 
 		// put the Post object to the view
-		$this->view->setVariable("post", $post);
+		$this->view->setVariable("switch", $switch);
 
 		// check if comment is already on the view (for example as flash variable)
 		// if not, put an empty Comment for the view
-		$comment = $this->view->getVariable("comment");
-		$this->view->setVariable("comment", ($comment==NULL)?new Comment():$comment);
+		//$descripcion = $this->view->getVariable("descripcion");
+		//$this->view->setVariable("descripcion", ($descripcion==NULL)?new Comment():$descripcion);
 
 		// render the view (/view/posts/view.php)
-		$this->view->render("posts", "view");
+		$this->view->render("switchs", "view");
 
 	}
 
@@ -233,9 +237,9 @@ class SwitchsController extends BaseController {
 		if (!isset($_POST["private_id"])) {
 			throw new Exception("id is mandatory");
 		}
-		if (!isset($this->currentUser)) {
+		/*if (!isset($this->currentUser)) {
 			throw new Exception("Not in session. Editing posts requires login");
-		}
+		}*/
 
 
 		// Get the Post object from the database
@@ -249,8 +253,10 @@ class SwitchsController extends BaseController {
 		}
 
 		// Check if the Post author is the currentUser (in Session)
-		if ($switch->getAlias() != $this->currentUser) {
-			throw new Exception("logged user is not the author of the switch id ".$publicid.$privateid);
+		if (isset($this->currentUser)) {
+			if ($switch->getAlias() != $this->currentUser) {
+				throw new Exception("logged user is not the author of the switch id ".$publicid.$privateid);
+			}
 		}
 
 		// reaching via HTTP Post...
@@ -275,7 +281,12 @@ class SwitchsController extends BaseController {
 				// perform the redirection. More or less:
 				// header("Location: index.php?controller=posts&action=index")
 				// die();
-				$this->view->redirect("switchs", "index");
+				if (!isset($this->currentUser)) {
+					//$this->view->redirect("switchs", "view");
+					$this->view->redirect("users", "login");
+				}else{
+					$this->view->redirect("switchs", "index");
+				}
 
 			}catch(ValidationException $ex) {
 				// Get the errors array inside the exepction...

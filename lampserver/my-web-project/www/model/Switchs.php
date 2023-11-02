@@ -63,7 +63,7 @@ class Switchs {
 		$this->estado = $estado;
 		$this->ultima_modificacion=$ultima_modificacion;
 		$this->descripcion = $descripcion;
-		$this->encendidos_hasta = $encendido_hasta; 
+		$this->encendido_hasta = $encendido_hasta; 
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Switchs {
 	public function getEncendidoHasta(){
 		return $this->encendido_hasta;
 	}
-	public function setEncendidoHasta(String $encendido_hasta) {
+	public function setEncendidoHasta(int $encendido_hasta) {
 		$this->encendido_hasta = $encendido_hasta;
 	}
 	public function getDescripcion(){
@@ -202,4 +202,15 @@ class Switchs {
 			throw new ValidationException($errors, "switch is not valid");
 		}
 	}
+	
+	public function tiempoEncendido(){
+	    $diferencia=$this->encendido_hasta;
+	    $horas = floor($diferencia / 3600);
+	    $diferencia %= 3600;
+	    $minutos = floor($diferencia / 60);
+	    $segundos = $diferencia % 60;
+
+	    return "$horas horas, $minutos minutos, $segundos segundos";
+	}
+	
 }

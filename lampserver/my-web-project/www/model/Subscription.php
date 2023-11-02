@@ -81,26 +81,26 @@ class Subscription {
 	*
 	* @return void
 	*/
-	/*public function checkIsValidForCreate() {
+	public function checkIsValidForCreate() {
 		$errors = array();
 		/*if (strlen(trim($this->title)) == 0 ) {
 			$errors["title"] = "title is mandatory";
 		}
 		if (strlen(trim($this->content)) == 0 ) {
 			$errors["content"] = "content is mandatory";
-		}
+		}*/
 		if ($this->alias == NULL ) {
 			$errors["alias"] = "alias is mandatory";
 		}
 		
-		if (strlen(trim($this->nombre)) == 0 ) {
-			$errors["nombre"] = "nombre is mandatory";
+		if (($this->switchs) == NULL ) {
+			$errors["switch"] = "switch is mandatory";
 		}
 
 		if (sizeof($errors) > 0){
-			throw new ValidationException($errors, "switch is not valid");
+			throw new ValidationException($errors, "subscription is not valid");
 		}
-	}*/
+	}
 
 	/**
 	* Checks if the current instance is valid

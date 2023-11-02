@@ -34,7 +34,7 @@ class SwitchsMapper {
 	*/
 	//(extract(hour_minute from CURRENT_TIMESTAMP())- extract(hour_minute from tiempo_modificacion)) as tiempo_modificacion
 	public function findAll() {
-		$stmt = $this->db->query("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, encendido_hasta, descripcion, alias FROM switch, users WHERE users.username = switch.alias");
+		$stmt = $this->db->query("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, TIMESTAMPDIFF(SECOND,tiempo_modificacion,NOW()) as encendido_hasta, descripcion, alias FROM switch, users WHERE users.username = switch.alias");
 		$switch_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$switchs = array();
@@ -56,9 +56,19 @@ class SwitchsMapper {
 	* @return Post The Post instances (without comments). NULL
 	* if the Post is not found
 	*/
-	public function findById($publicid,$privateid){
-		$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, encendido_hasta, descripcion, alias FROM switch WHERE public_id=? AND private_id=?");
-		$stmt->execute(array($publicid,$privateid));
+	public function findById($publicid=NULL,$privateid=NULL){
+		if($publicid!=NULL && $privateid!=NULL){
+			$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, TIMESTAMPDIFF(SECOND,tiempo_modificacion,NOW()) as encendido_hasta, descripcion, alias FROM switch WHERE public_id=? AND private_id=?");
+			$stmt->execute(array($publicid,$privateid));
+		}else if($publicid!=NULL){
+			$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, TIMESTAMPDIFF(SECOND,tiempo_modificacion,NOW()) as encendido_hasta, descripcion, alias FROM switch WHERE public_id=?");
+			$stmt->execute(array($publicid));
+		
+		}else if($privateid!=NULL){
+			$stmt = $this->db->prepare("SELECT public_id, private_id, nombre, estado, tiempo_modificacion, TIMESTAMPDIFF(SECOND,tiempo_modificacion,NOW()) as encendido_hasta, descripcion, alias FROM switch WHERE private_id=?");
+			$stmt->execute(array($privateid));
+		
+		}
 		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		if($switch != null) {
