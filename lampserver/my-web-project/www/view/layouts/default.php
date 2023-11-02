@@ -19,7 +19,7 @@ $currentuser = $view->getVariable("currentusername");
 <body>
 	<!-- header -->
 	<header>
-		<h1>Blog</h1>
+		<h1>IAmON</h1>
 		<nav id="menu" style="background-color:grey">
 			<ul>
 

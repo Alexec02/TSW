@@ -63,7 +63,9 @@
     width: 20px;
     height: 20px;
 }
-
+.timeon {
+  width:50px;
+}
 /* Media query para pantallas grandes */
 @media (min-width: 992px) {
     .switch-container,
