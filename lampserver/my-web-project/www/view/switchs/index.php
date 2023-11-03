@@ -25,7 +25,7 @@ $view->setVariable("nombre", "Switchs");
 				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?> <?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png"> <form
+					<span><?= $switch->getNombre()?></span><span><?php if($switch->getEstado()==0): ?><img class="image" src="images/circuloRojo.png"> <form
 				method="POST"
 				action="index.php?controller=switchs&amp;action=edit"
 				id="edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>"
@@ -35,7 +35,7 @@ $view->setVariable("nombre", "Switchs");
 				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
 				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
 				<input type="hidden" name="estado" value=1>
-				<label><?=i18n("Time on ")?></label><input type=number name="encendido_hasta" value=60 min=1 max=120>
+				<?=i18n("Time on ")?> <input type="number" name="encendido_hasta" value=60 min=1 max=120 class="timeon">
 				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch on")?></button>
 
 					</form>
@@ -53,8 +53,8 @@ $view->setVariable("nombre", "Switchs");
 				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch off")?></button>
 
 					</form><?php endif;?>
-					
-					<button class="info-button">i</button>
+					</span><span>
+					<!--<button class="info-button">i</button>-->
 					<form
 				method="POST"
 				action="index.php?controller=switchs&amp;action=delete"
@@ -70,11 +70,11 @@ $view->setVariable("nombre", "Switchs");
 				if (confirm('<?= i18n("are you sure?")?>')) {
 					document.getElementById('delete_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()
 				}"
-				><?= i18n("Delete") ?></a>
+				><?= i18n("Delete") ?> </a>
 
 			</form><br>
 			<label><?=i18n("Public ID: ")?><?=$switch->getPublicId()?><label><br>
-			<label><?=i18n("Private ID: ")?><?=$switch->getPrivateId()?><label>
+			<label><?=i18n("Private ID: ")?><?=$switch->getPrivateId()?><label></span>
 				    	</li>
 
 			&nbsp;
@@ -99,7 +99,8 @@ $view->setVariable("nombre", "Switchs");
 				if (isset($currentuser) && $currentuser == $subscription->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $subscription->getSwitchs()->getNombre()?> <?php if($subscription->getSwitchs()->getEstado()==0): ?><img class="image" src="images/circuloRojo.png"><span><?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
+					<span><?= $subscription->getSwitchs()->getNombre()?>
+			</span> <?php if($subscription->getSwitchs()->getEstado()==0): ?><img class="image" src="images/circuloRojo.png"><span><?= i18n("Author") ?>: <?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
 					<span><?= i18n("Last modification") ?>: <?= $subscription->getSwitchs()->getUltimaModificacion()?></span><?php else:?><img class="image" src="images/circuloVerde.png"></span><span><?= i18n("Author") ?>: <?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
 					<span><?= i18n("Time on") ?>: <?= $subscription->getSwitchs()->tiempoEncendido()?></span><?php endif;?>
 					
