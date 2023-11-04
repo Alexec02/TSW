@@ -33,7 +33,7 @@ class SubscriptionMapper {
 	* @return mixed Array of Post instances (without comments)
 	*/
 	public function findAll() {
-		$stmt = $this->db->query("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, TIMESTAMPDIFF(SECOND,tiempo_modificacion,NOW()) as encendido_hasta, descripcion, s.alias, sp.alias as subscriptor FROM switch s, subscription sp WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id");
+		$stmt = $this->db->query("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor FROM switch s, subscription sp WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id");
 		$subscription_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$subscriptions = array();
@@ -56,7 +56,7 @@ class SubscriptionMapper {
 	* if the Post is not found
 	*/
 	public function findById($publicid,$privateid,$user){
-		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, TIMESTAMPDIFF(SECOND,tiempo_modificacion,NOW()) as encendido_hasta, descripcion, s.alias, sp.alias as subscriptor FROM switch s, subscription sp WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND s.private_id=? and sp.alias=?");
+		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor FROM switch s, subscription sp WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND s.private_id=? and sp.alias=?");
 		$stmt->execute(array($publicid,$privateid,$user));
 		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
 

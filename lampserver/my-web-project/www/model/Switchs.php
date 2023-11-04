@@ -126,13 +126,13 @@ class Switchs {
 	public function getUltimaModificacion(){
 		return $this->ultima_modificacion;
 	}
-	public function setUltimaModificacion(Timestamp $ultima_modificacion) {
+	public function setUltimaModificacion(String $ultima_modificacion) {
 		$this->ultima_modificacion = $ultima_modificacion;
 	}
 	public function getEncendidoHasta(){
 		return $this->encendido_hasta;
 	}
-	public function setEncendidoHasta(int $encendido_hasta) {
+	public function setEncendidoHasta(String $encendido_hasta) {
 		$this->encendido_hasta = $encendido_hasta;
 	}
 	public function getDescripcion(){
@@ -204,13 +204,18 @@ class Switchs {
 	}
 	
 	public function tiempoEncendido(){
-	    $diferencia=$this->encendido_hasta;
-	    $horas = floor($diferencia / 3600);
-	    $diferencia %= 3600;
-	    $minutos = floor($diferencia / 60);
-	    $segundos = $diferencia % 60;
-
-	    return "$horas horas, $minutos minutos, $segundos segundos";
+	    $ahora=new DateTime("now");
+	    $encendido=new DateTime($this->ultima_modificacion);
+	    $diferencia=$ahora->diff($encendido);
+	
+	    return $diferencia->h." horas, ".$diferencia->i." minutos, ".$diferencia->s." segundos";
+	}
+	
+	public function encendido(){
+	   $ahora=new DateTime("now");
+	   $encendido=new DateTime($this->ultima_modificacion);
+	   return $ahora>$encendido;
+	   
 	}
 	
 }

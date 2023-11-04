@@ -15,9 +15,9 @@ $view->setVariable("title", "View Switch");
 <p>
 	<?= htmlentities($switch->getDescripcion()) ?>
 </p>
-<?php if($switch->getEstado()==0): ?>
+<?php if($switch->encendido()): ?>
 <img class="image" src="images/circuloRojo.png" width=10px height=10px><span>
-<?= i18n("Last modification") ?>: <?=$switch->getUltimaModificacion()?></span></span>
+<?= i18n("Last modification") ?>: <?=$switch->getEncendidoHasta()?></span></span>
 <?php else:?>
 <img class="image" src="images/circuloVerde.png" width=10px heigth=10px><span>
 <?= i18n("Time on") ?>: <?=$switch->tiempoEncendido()?></span>

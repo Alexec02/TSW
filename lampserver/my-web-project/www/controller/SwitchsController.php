@@ -262,7 +262,6 @@ class SwitchsController extends BaseController {
 		// reaching via HTTP Post...
 
 			// populate the Post object with data form the form
-			$switch->setEstado($_POST["estado"]);
 			$switch->setEncendidoHasta($_POST["encendido_hasta"]);
 			try {
 				// validate Post object
@@ -283,7 +282,7 @@ class SwitchsController extends BaseController {
 				// die();
 				if (!isset($this->currentUser)) {
 					//$this->view->redirect("switchs", "view");
-					$this->view->redirect("users", "login");
+					$this->view->redirectToReferer();
 				}else{
 					$this->view->redirect("switchs", "index");
 				}
@@ -345,7 +344,7 @@ class SwitchsController extends BaseController {
 		// Delete the Post object from the database
 		$this->switchsMapper->delete($switch);
 
-		// POST-REDIRECT-GET
+		// POST-CT-GET
 		// Everything OK, we will redirect the user to the list of posts
 		// We want to see a message after redirection, so we establish
 		// a "flash" message (which is simply a Session variable) to be

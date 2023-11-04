@@ -203,21 +203,17 @@ class SubscriptionController extends BaseController {
 		if (!isset($_POST["public_id"])) {
 			throw new Exception("id is mandatory");
 		}
-		if (!isset($_POST["private_id"])) {
-			throw new Exception("id is mandatory");
-		}
 		if (!isset($this->currentUser)) {
 			throw new Exception("Not in session. Editing posts requires login");
 		}
 		
 		// Get the Post object from the database
 		$publicid = $_REQUEST["public_id"];
-		$privateid = $_REQUEST["private_id"];
-		$subscripcion = $this->subscriptionMapper->findById($publicid,$privateid,$this->currentUser->getUsername());
+		$subscripcion = $this->subscriptionMapper->findById($publicid,$this->currentUser->getUsername());
 
 		// Does the post exist?
 		if ($subscripcion == NULL) {
-			throw new Exception("no such post with id: ".$publicid.$privateid);
+			throw new Exception("no such post with id: ".$publicid);
 		}
 
 		// Check if the Post author is the currentUser (in Session)
