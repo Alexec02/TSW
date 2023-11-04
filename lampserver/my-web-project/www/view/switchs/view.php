@@ -15,7 +15,7 @@ $view->setVariable("title", "View Switch");
 <p>
 	<?= htmlentities($switch->getDescripcion()) ?>
 </p>
-<?php if($switch->encendido()): ?>
+<?php if($switch->encendido()==false): ?>
 <img class="image" src="images/circuloRojo.png" width=10px height=10px><span>
 <?= i18n("Last modification") ?>: <?=$switch->getEncendidoHasta()?></span></span>
 <?php else:?>
@@ -41,7 +41,7 @@ if($switch->getPublicId()==$publicid):
 </form>
 <?php endif; elseif($switch->getPrivateId()==$privateid):?>
 	<li class="switch-item" data-state="apagado">
-					<?php if($switch->getEstado()==0): ?><form
+					<?php if($switch->encendido()==false): ?><form
 				method="POST"
 				action="index.php?controller=switchs&amp;action=edit"
 				id="edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>"

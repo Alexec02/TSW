@@ -21,11 +21,10 @@ $view->setVariable("nombre", "Switchs");
 				<?php
 				//show actions ONLY for the author of the post (if logged)
 
-
 				if (isset($currentuser) && $currentuser == $switch->getAlias()->getUsername()): ?>
 
 					<li class="switch-item" data-state="apagado">
-					<span><?= $switch->getNombre()?><?php if(!$switch->encendido()): ?><img class="image" src="images/circuloRojo.png"></span> <span><form
+					<span><?= $switch->getNombre()?><?php if($switch->encendido()==false): ?><img class="image" src="images/circuloRojo.png"></span> <span><form
 				method="POST"
 				action="index.php?controller=switchs&amp;action=edit"
 				id="edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>"
@@ -98,8 +97,8 @@ $view->setVariable("nombre", "Switchs");
 
 					<li class="switch-item" data-state="apagado">
 					<span><?= $subscription->getSwitchs()->getNombre()?>
-			</span> <?php
-			 if($subscription->getSwitchs()->encendido()): ?><img class="image" src="images/circuloRojo.png"><span><?= i18n("Author") ?>: <?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
+			<?php
+			 if($subscription->getSwitchs()->encendido()==false): ?><img class="image" src="images/circuloRojo.png"></span><span><?= i18n("Author") ?>: <?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
 					<span><?= i18n("Last modification") ?>: <?= $subscription->getSwitchs()->getEncendidoHasta()?></span><?php else:?><img class="image" src="images/circuloVerde.png"></span><span><?= i18n("Author") ?>: <?= $subscription->getSwitchs()->getAlias()->getUsername()?></span>
 					<span><?= i18n("Time on") ?>: <?= $subscription->getSwitchs()->tiempoEncendido()?></span><?php endif;?>
 					

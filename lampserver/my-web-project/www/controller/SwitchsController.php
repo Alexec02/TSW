@@ -280,12 +280,10 @@ class SwitchsController extends BaseController {
 				// perform the redirection. More or less:
 				// header("Location: index.php?controller=posts&action=index")
 				// die();
-				if (!isset($this->currentUser)) {
+				
 					//$this->view->redirect("switchs", "view");
-					$this->view->redirectToReferer();
-				}else{
-					$this->view->redirect("switchs", "index");
-				}
+				$this->view->redirectToReferer();
+				
 
 			}catch(ValidationException $ex) {
 				// Get the errors array inside the exepction...

@@ -213,8 +213,12 @@ class Switchs {
 	
 	public function encendido(){
 	   $ahora=new DateTime("now");
-	   $encendido=new DateTime($this->ultima_modificacion);
-	   return $ahora>$encendido;
+	   $encendido=new DateTime($this->encendido_hasta);
+	   if($ahora<$encendido){
+	   	return true;
+	   }else if($ahora>=$encendido){
+	   	return false;
+	   }
 	   
 	}
 	
