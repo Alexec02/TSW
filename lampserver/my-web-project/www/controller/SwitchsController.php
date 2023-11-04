@@ -263,12 +263,21 @@ class SwitchsController extends BaseController {
 
 			// populate the Post object with data form the form
 			$switch->setEncendidoHasta($_POST["encendido_hasta"]);
+			
+			$switch->setEstado($_POST["estado"]);
 			try {
 				// validate Post object
 				$switch->checkIsValidForUpdate(); // if it fails, ValidationException
 
 				// update the Post object in the database
 				$this->switchsMapper->update($switch);
+				
+				if($switch->getEstado()==1){
+					$subscriptions=$this->subscriptionMapper->findById($publicid,$privateid);
+					foreach ($subscriptions as $sub){
+						mail($sub->getAlias()->getEmail(),"Switch encendido: ".$sub->getSwitchs()->getNombre(),"El Switch ".$sub->getSwitchs()->getNombre()." está ahora activo.", "From: example@gmail.com\r\nReply-To: example@gmail.com\r\nContent-Type: text/html; charset=ISO-8859-1\r\n");
+					}
+				}
 
 				// POST-REDIRECT-GET
 				// Everything OK, we will redirect the user to the list of posts

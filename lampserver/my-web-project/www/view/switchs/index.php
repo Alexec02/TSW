@@ -33,6 +33,7 @@ $view->setVariable("nombre", "Switchs");
 
 				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
 				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
+				<input type="hidden" name="estado" value=1>
 				<?=i18n("Time on ")?> <input type="number" name="encendido_hasta" value=60 min=1 max=120 class="timeon"><br>
 				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch on")?></button>
 
@@ -47,6 +48,8 @@ $view->setVariable("nombre", "Switchs");
 				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
 				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
 				<input type="hidden" name="encendido_hasta" value=0>
+				
+				<input type="hidden" name="estado" value=0>
 				<button class="toggle-button" onclick="document.getElementById('edit_switch_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"><?=i18n("Switch off")?></button>
 
 					</form><?php endif;?>

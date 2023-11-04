@@ -55,9 +55,9 @@ class SubscriptionMapper {
 	* @return Post The Post instances (without comments). NULL
 	* if the Post is not found
 	*/
-	public function findById($publicid,$privateid,$user){
-		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor FROM switch s, subscription sp WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND s.private_id=? and sp.alias=?");
-		$stmt->execute(array($publicid,$privateid,$user));
+	public function findById($publicid,$privateid){
+		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor, u.email FROM switch s, subscription sp, users u WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND s.private_id=? and u.username=sp.alias");
+		$stmt->execute(array($publicid,$privateid));
 		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		if($switch != null) {
@@ -69,7 +69,7 @@ class SubscriptionMapper {
 			$switch["estado"],
 			$switch["tiempo_modificacion"],
 			$switch["encendido_hasta"],
-			new User($switch["alias"])), new User($switch["subscriptor"]));
+			new User($switch["alias"])), new User($switch["subscriptor"],"",$switch["email"]));
 		} else {
 			return NULL;
 		}
