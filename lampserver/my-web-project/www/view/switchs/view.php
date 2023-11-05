@@ -9,17 +9,18 @@ $errors = $view->getVariable("errors");
 
 $view->setVariable("title", "View Switch");
 
-?><h1><?= i18n("Switch").": ".htmlentities($switch->getNombre()) ?></h1>
+?><link rel="stylesheet" href="css/prueba.css" type="text/css">
+<h1><?= i18n("Switch").": ".htmlentities($switch->getNombre()) ?></h1>
 <em><?= sprintf(i18n("by %s"),$switch->getAlias()->getUsername()) ?></em>
 <h2><?= i18n("Description") ?>:</h2>
 <p>
 	<?= htmlentities($switch->getDescripcion()) ?>
 </p>
 <?php if($switch->encendido()==false): ?>
-<img class="image" src="images/circuloRojo.png" width=10px height=10px><span>
+<img class="image" src="images/circuloRojo.png"><span>
 <?= i18n("Last modification") ?>: <?=$switch->getEncendidoHasta()?></span></span>
 <?php else:?>
-<img class="image" src="images/circuloVerde.png" width=10px heigth=10px><span>
+<img class="image" src="images/circuloVerde.png"><span>
 <?= i18n("Time on") ?>: <?=$switch->tiempoEncendido()?></span>
 <?php endif;?>
 <?php $publicid = isset($_GET["public_id"]) ? $_GET["public_id"] : null;
@@ -35,7 +36,7 @@ if($switch->getPublicId()==$publicid):
 
 				<input type="hidden" name="public_id" value="<?= $switch->getPublicId() ?>">
 				<input type="hidden" name="private_id" value="<?= $switch->getPrivateId() ?>">
-<button href="#" 
+<button href="#" class=subscription-button
 				onclick="document.getElementById('add_subscription_<?= $switch->getPublicId() ?>_<?=$switch->getPrivateId()?>').submit()"
 				><?= i18n("Subscribe") ?></button>
 </form>
