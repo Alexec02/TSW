@@ -12,6 +12,7 @@ require_once(__DIR__."/../model/SubscriptionMapper.php");
 
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
+include('Mail.php');
 
 /**
 * Class PostsController
@@ -259,6 +260,7 @@ class SwitchsController extends BaseController {
 			}
 		}
 
+		//172.29.64.1
 		// reaching via HTTP Post...
 
 			// populate the Post object with data form the form
@@ -266,19 +268,32 @@ class SwitchsController extends BaseController {
 			
 			$switch->setEstado($_POST["estado"]);
 			try {
-				// validate Post object
-				$switch->checkIsValidForUpdate(); // if it fails, ValidationException
+                // validate Post object
+                $switch->checkIsValidForUpdate(); // if it fails, ValidationException
 
-				// update the Post object in the database
-				$this->switchsMapper->update($switch);
-				
-				if($switch->getEstado()==1){
-					$subscriptions=$this->subscriptionMapper->findById($publicid,$privateid);
-					foreach ($subscriptions as $sub){
-						mail($sub->getAlias()->getEmail(),"Switch encendido: ".$sub->getSwitchs()->getNombre(),"El Switch ".$sub->getSwitchs()->getNombre()." está ahora activo.", "From: example@gmail.com\r\nReply-To: example@gmail.com\r\nContent-Type: text/html; charset=ISO-8859-1\r\n");
-					}
-				}
+                // update the Post object in the database
+                $this->switchsMapper->update($switch);
 
+                if ($switch->getEstado() == 1) {
+                    $subscriptions = $this->subscriptionMapper->findAll();
+
+                    foreach ($subscriptions as $sub) {
+
+
+                        $recipients = $sub->getAlias()->getEmail();
+                        $headers['From'] = 'notifications@iamon.com';
+                        $headers['To'] = $recipients;
+                        $headers['Subject'] = 'Switch has been switched on!';
+                        $body = 'The Switch ' . $sub->getSwitchs()->getNombre() . ' you are subscribed to has been powered on!!';
+
+                        $params['host'] = '172.29.64.1'; // IP de la máquina host cuando se usa Docker (FakeSMTP)
+                        $params['port'] = '2525'; // Puerto del FakeSMTP
+
+                        // Crea el objeto de correo utilizando el método Mail::factory
+                        $mail_object = Mail::factory('smtp', $params);
+                        $mail_object->send($recipients, $headers, $body);
+                    }
+                }
 				// POST-REDIRECT-GET
 				// Everything OK, we will redirect the user to the list of posts
 				// We want to see a message after redirection, so we establish
