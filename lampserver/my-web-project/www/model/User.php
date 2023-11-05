@@ -75,13 +75,20 @@ class User {
 		$this->passwd = $passwd;
 	}
 
-	public function getEmail (){
+	public function getEmail(){
 		return $this->email;
 
 	}
 
 	public function setEmail($email) {
 		$this->email = $email;
+	}
+
+	public function toJson(){
+		return 
+			"username:".$this->username.
+			"email:".$this->email;
+		
 	}
 
 

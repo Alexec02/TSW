@@ -46,6 +46,27 @@ class SubscriptionMapper {
 		return $subscriptions;
 	}
 
+	public function findAllSubscriptions($publicid,$privateid) {
+		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor, u.email as email FROM switch s, subscription sp, users u WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND sp.public_id=? AND sp.private_id=? AND sp.alias=u.username");
+
+	$stmt->bindParam(1, $publicid, PDO::PARAM_INT);
+	$stmt->bindParam(2, $privateid, PDO::PARAM_INT);
+	$stmt->execute();
+
+$subscription_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+		$subscriptions = array();
+
+		foreach ($subscription_db as $subscription) {
+			$switchs = new Switchs($subscription["public_id"], $subscription["private_id"], $subscription["nombre"], $subscription["descripcion"], $subscription["estado"], $subscription["tiempo_modificacion"], $subscription["encendido_hasta"], new User($subscription["alias"]));
+			array_push($subscriptions, new Subscription($switchs, new User($subscription["subscriptor"], "", $subscription["email"])));
+		}
+
+		return $subscriptions;
+	}
+	
+
 	/**
 	* Loads a Post from the database given its id
 	*
@@ -75,26 +96,26 @@ class SubscriptionMapper {
 		}
 	}
 
+
 	public function findByIdUser($publicid,$username){
-		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor, u.email FROM switch s, subscription sp, users u WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND u.username=?  and u.username=sp.alias");
-		$stmt->execute(array($publicid,$username));
-		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor, u.email FROM switch s, subscription sp, users u WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND u.username=? and u.username=sp.alias");
+        $stmt->execute(array($publicid,$username));
+        $switch = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		if($switch != null) {
-			return new Subscription(new Switchs(
-			$switch["public_id"],
-			$switch["private_id"],
-			$switch["nombre"],
-			$switch["descripcion"],
-			$switch["estado"],
-			$switch["tiempo_modificacion"],
-			$switch["encendido_hasta"],
-			new User($switch["alias"])), new User($switch["subscriptor"],"",$switch["email"]));
-		} else {
-			return NULL;
-		}
-	}
-
+        if($switch != null) {
+            return new Subscription(new Switchs(
+            $switch["public_id"],
+            $switch["private_id"],
+            $switch["nombre"],
+            $switch["descripcion"],
+            $switch["estado"],
+            $switch["tiempo_modificacion"],
+            $switch["encendido_hasta"],
+            new User($switch["alias"])), new User($switch["subscriptor"],"",$switch["email"]));
+        } else {
+            return NULL;
+        }
+    }
 	
 
 		/**
