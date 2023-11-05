@@ -76,7 +76,7 @@ class SubscriptionMapper {
 	}
 
 	public function findByIdUser($publicid,$username){
-		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor, u.email FROM switch s, subscription sp, users u WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND u.username=? and s.alias = u.username and u.username=sp.alias");
+		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor, u.email FROM switch s, subscription sp, users u WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND u.username=?  and u.username=sp.alias");
 		$stmt->execute(array($publicid,$username));
 		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
 
