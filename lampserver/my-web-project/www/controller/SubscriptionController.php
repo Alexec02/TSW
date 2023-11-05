@@ -209,27 +209,27 @@ class SubscriptionController extends BaseController {
 		
 		// Get the Post object from the database
 		$publicid = $_REQUEST["public_id"];
-		$subscription = $this->subscriptionMapper->findByIdUser($publicid,$this->currentUser->getUsername());
+		$subscripcion = $this->subscriptionMapper->findByIdUser($publicid,$this->currentUser->getUsername());
 
 		// Does the post exist?
-		if ($subscription == NULL) {
+		if ($subscripcion == NULL) {
 			throw new Exception("no such post with id: ".$publicid);
 		}
 
 		// Check if the Post author is the currentUser (in Session)
-		if ($subscription->getAlias()->getUsername() != $this->currentUser->getUsername()) {
+		if ($subscripcion->getAlias()->getUsername() != $this->currentUser->getUsername()) {
 			throw new Exception("Switch subscriptor is not the logged user");
 		}
 
 		// Delete the Post object from the database
-		$this->subscriptionMapper->delete($subscription);
+		$this->subscriptionMapper->delete($subscripcion);
 
 		// POST-REDIRECT-GET
 		// Everything OK, we will redirect the user to the list of posts
 		// We want to see a message after redirection, so we establish
 		// a "flash" message (which is simply a Session variable) to be
 		// get in the view after redirection.
-		$this->view->setFlash(sprintf(i18n("Subscription \"%s\" successfully deleted."),$subscription->getSwitchs() ->getNombre()));
+		$this->view->setFlash(sprintf(i18n("Subscription \"%s\" successfully deleted."),$subscripcion->getSwitchs() ->getNombre()));
 
 		// perform the redirection. More or less:
 		// header("Location: index.php?controller=posts&action=index")

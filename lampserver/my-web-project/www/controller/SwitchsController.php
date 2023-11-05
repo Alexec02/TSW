@@ -275,18 +275,18 @@ class SwitchsController extends BaseController {
                 $this->switchsMapper->update($switch);
 
                 if ($switch->getEstado() == 1) {
-                    $subscriptions = $this->subscriptionMapper->findAll();
+                    $subscriptions = $this->subscriptionMapper->findAllSubscriptions($publicid,$privateid);
 
                     foreach ($subscriptions as $sub) {
 
-
+						
                         $recipients = $sub->getAlias()->getEmail();
                         $headers['From'] = 'notifications@iamon.com';
                         $headers['To'] = $recipients;
                         $headers['Subject'] = 'Switch has been switched on!';
                         $body = 'The Switch ' . $sub->getSwitchs()->getNombre() . ' you are subscribed to has been powered on!!';
 
-                        $params['host'] = '172.29.64.1'; // IP de la máquina host cuando se usa Docker (FakeSMTP)
+                        $params['host'] = '172.24.160.1'; // IP de la máquina host cuando se usa Docker (FakeSMTP)
                         $params['port'] = '2525'; // Puerto del FakeSMTP
 
                         // Crea el objeto de correo utilizando el método Mail::factory
