@@ -1,0 +1,49 @@
+/* nuevoSwitch.css */
+.form-container {
+    width: 300px;
+    margin: 0; /* Alineado a la izquierda */
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc; /* Agregamos un borde al contenedor */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Aumentamos el tamaño del campo de descripción */
+input[type="text"][name="descripcion"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    height: 80px; /* Aumentamos la altura */
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s; /* Agregamos una transición para el color de fondo */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Cambio de color al pasar el cursor */
+}
