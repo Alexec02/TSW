@@ -1,13 +1,14 @@
 /* nuevoSwitch.css */
 .form-container {
     width: 300px;
-    margin: 0; /* Alineado a la izquierda */
+    margin-left: 10px; /* Agregamos un margen a la izquierda */
     background-color: #f2f2f2;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ccc; /* Agregamos un borde al contenedor */
+    border: 1px solid #ccc;
 }
+
 
 .form-group {
     margin-bottom: 15px;
