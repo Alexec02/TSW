@@ -75,6 +75,26 @@ class SubscriptionMapper {
 		}
 	}
 
+	public function findByIdUser($publicid,$username){
+		$stmt = $this->db->prepare("SELECT s.public_id, s.private_id, s.nombre, s.estado, tiempo_modificacion, encendido_hasta, descripcion, s.alias, sp.alias as subscriptor, u.email FROM switch s, subscription sp, users u WHERE s.public_id=sp.public_id AND s.private_id=sp.private_id AND s.public_id=? AND u.username=? and s.alias = u.username and u.username=sp.alias");
+		$stmt->execute(array($publicid,$username));
+		$switch = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if($switch != null) {
+			return new Subscription(new Switchs(
+			$switch["public_id"],
+			$switch["private_id"],
+			$switch["nombre"],
+			$switch["descripcion"],
+			$switch["estado"],
+			$switch["tiempo_modificacion"],
+			$switch["encendido_hasta"],
+			new User($switch["alias"])), new User($switch["subscriptor"],"",$switch["email"]));
+		} else {
+			return NULL;
+		}
+	}
+
 	
 
 		/**
