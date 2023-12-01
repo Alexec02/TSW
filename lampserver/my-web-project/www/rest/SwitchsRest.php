@@ -26,6 +26,7 @@ class SwitchsRest extends BaseRest {
 
         $switchs_array = array();
         foreach($switchs as $switch) {
+					if ($switch->getAlias() = $currentUser){
             array_push($switchs_array, array(
                 "public_id" => $switch->getPublicId(),
                 "private_id" => $switch->getPrivateId(),
@@ -36,6 +37,7 @@ class SwitchsRest extends BaseRest {
                 "encendido_hasta" => $switch->getEncendidoHasta(),
                 "alias" => $switch->getAlias()->getUsername(),
             ));
+					}
         }
 
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
@@ -55,13 +57,13 @@ class SwitchsRest extends BaseRest {
 
         try {
             $switch->checkIsValidForCreate();
-            $switchId = $this->switchsMapper->save($switch);
+            $switchId = $this->switchsMapper->save($switch);//no se yo si el return que hacemos es correcto
 
             header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            header('Location: '.$_SERVER['REQUEST_URI']."/".$switchId);
+            header('Location: '.$_SERVER['REQUEST_URI']."/".$switchId);//xd
             header('Content-Type: application/json');
             echo(json_encode(array(
-                "public_id" => $switchId,
+							//switchid
                 "nombre" => $switch->getNombre(),
                 "descripcion" => $switch->getDescripcion(),
                 "estado" => $switch->getEstado(),
@@ -76,7 +78,7 @@ class SwitchsRest extends BaseRest {
         }
     }
 
-    public function readSwitch($publicId, $privateId) {
+    public function readSwitch($publicid=NULL,$privateid=NULL) {
         $switch = $this->switchsMapper->findById($publicId, $privateId);
 
         if ($switch == NULL) {
@@ -87,7 +89,7 @@ class SwitchsRest extends BaseRest {
 
         $switch_array = array(
             "public_id" => $switch->getPublicId(),
-            "private_id" => $switch->getPrivateId(),
+            "private_id" => ($private_id!=NULL)?$switch->getPrivateId():NULL,//No se si esto funciona, si no funciona, crear dos opciones de array
             "nombre" => $switch->getNombre(),
             "descripcion" => $switch->getDescripcion(),
             "estado" => $switch->getEstado(),

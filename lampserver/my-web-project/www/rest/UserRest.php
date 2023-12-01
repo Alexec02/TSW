@@ -17,12 +17,11 @@ class UserRest extends BaseRest {
 
 	public function __construct() {
 		parent::__construct();
-
 		$this->userMapper = new UserMapper();
 	}
 
 	public function postUser($data) {
-		$user = new User($data->username, $data->password);
+		$user = new User($data->username, $data->password, $data->email);
 		try {
 			$user->checkIsValidForRegister();
 
