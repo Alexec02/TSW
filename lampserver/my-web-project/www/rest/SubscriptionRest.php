@@ -166,8 +166,8 @@ class SubscriptionRest extends BaseRest {
 // URI-MAPPING for this Rest endpoint
 $subscriptionRest = new SubscriptionRest();
 URIDispatcher::getInstance()
-    ->map("GET",    "/switchs", array($subscriptionRest,"getSubscription"))
-    ->map("GET",    "/switchs/$1/$2", array($subscriptionRest,"readSubscription"))
-    ->map("POST",   "/switchs", array($subscriptionRest,"createSubscription"))
+    ->map("GET",    "/subscription", array($subscriptionRest,"getSubscription"))
+    ->map("GET",    "/subscription/$1/$2", array($subscriptionRest,"readSubscription"))
+    ->map("POST",   "/subscription", array($subscriptionRest,"createSubscription"))
     //->map("PUT",    "/switchs/$1/$2", array($subscriptionRest,"updateSwitch"))
-    ->map("DELETE", "/switchs/$1/$2", array($subscriptionRest,"deleteSubscription"));
+    ->map("DELETE", "/subscription/$1/$2", array($subscriptionRest,"deleteSubscription"));
