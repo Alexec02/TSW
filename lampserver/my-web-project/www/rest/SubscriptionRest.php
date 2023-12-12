@@ -83,8 +83,9 @@ class SubscriptionRest extends BaseRest {
     }
 
     public function readSubscription($publicId=NULL, $privateId=NULL) {
-        $subscription = $this->subscriptionMapper->findById($publicId, $privateId);
-
+        $currentUser = parent::authenticateUser();
+        $subscription = $this->subscriptionMapper-> findByIdUser($publicid,$currentUser);
+        
         if ($subscription == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             echo("Switch with public_id ".$publicId." and private_id ".$privateId." not found");
@@ -142,7 +143,7 @@ class SubscriptionRest extends BaseRest {
 
     public function deleteSubscription($publicId, $privateId) {
         $currentUser = parent::authenticateUser();
-        $subscription = $this->subscriptionMapper->findById($publicId, $privateId);
+        $subscription = $this->subscriptionMapper->findByIdUser($publicId, $currentUser);
 
         if ($subscription == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
