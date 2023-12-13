@@ -1,6 +1,6 @@
-create database tsw;
-CREATE USER 'tswuser'@'localhost' IDENTIFIED BY 'tswpass';
-GRANT ALL PRIVILEGES ON tsw.* TO 'tswuser'@'localhost' WITH GRANT OPTION;
+create database tswblog;
+CREATE USER 'tswuser'@'localhost' IDENTIFIED BY 'tswblogpass';
+GRANT ALL PRIVILEGES ON tswblog.* TO 'tswuser'@'localhost' WITH GRANT OPTION;
 
 create table users(
   alias varchar(20) not null,
