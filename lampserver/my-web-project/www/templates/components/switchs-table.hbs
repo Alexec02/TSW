@@ -1,6 +1,6 @@
 <div>
-<h1>{{i18n 'Posts'}}</h1>
-<div id="posts-table">
+<h1>{{i18n 'Switchs'}}</h1>
+<div id="switchs-table">
   {{#if posts.length}}
     <table border="1">
       <thead>
@@ -11,14 +11,14 @@
       </tr>
       </thead>
       <tbody>
-      {{#each posts}}
-        <tr fronty-component="PostRowComponent" key="{{id}}" model="posts[{{@index}}]" id="item-{{id}}"></tr>
+      {{#each switchs}}
+        <tr fronty-component="SwitchRowComponent" key="{{publicid}}" model="switchs[{{@index}}]" publicidid="item-{{publicidid}}"></tr>
       {{/each}}
     </tbody>
     </table>
   {{/if}}
 </div>
 {{#if user.isLogged}}
-  <a href='#add-post'>{{i18n 'Add post'}}</a>
+  <a href='#add-switch'>{{i18n 'Add switch'}}</a>
 {{/if}}
 </div>
