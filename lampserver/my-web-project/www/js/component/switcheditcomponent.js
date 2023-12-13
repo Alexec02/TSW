@@ -1,17 +1,20 @@
-class PostEditComponent extends Fronty.ModelComponent {
-  constructor(postsModel, userModel, router) {
-    super(Handlebars.templates.postedit, postsModel);
-    this.postsModel = postsModel; // posts
+class SwitchEditComponent extends Fronty.ModelComponent {
+  constructor(switchsModel, userModel, router) {
+    super(Handlebars.templates.switchedit, switchsModel);
+    this.switchsModel = switchsModel; // posts
     this.userModel = userModel; // global
     this.addModel('user', userModel);
     this.router = router;
 
-    this.postsService = new PostsService();
+    this.switchsService = new SwitchsService();
 
     this.addEventListener('click', '#savebutton', () => {
-      this.postsModel.selectedPost.title = $('#title').val();
-      this.postsModel.selectedPost.content = $('#content').val();
-      this.postsService.savePost(this.postsModel.selectedPost)
+      this.switchsModel.selectedSwitch.estado = $('#estado').val();
+      this.switchsModel.selectedSwitch.publicid = $('#publicid').val();
+      this.switchsModel.selectedSwitch.privateid = $('#privateid').val();
+      this.switchsModel.selectedSwitch.nombre = $('#nombre').val();
+      this.switchsModel.selectedSwitch.encendido_hasta = $('#encendido_hasta').val();
+      this.switchsService.savePost(this.switchsModel.selectedSwitch)
         .then(() => {
           this.postsModel.set((model) => {
             model.errors = []

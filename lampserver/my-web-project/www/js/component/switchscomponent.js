@@ -1,25 +1,25 @@
-class PostsComponent extends Fronty.ModelComponent {
-  constructor(postsModel, userModel, router) {
-    super(Handlebars.templates.poststable, postsModel, null, null);
+class SwitchsComponent extends Fronty.ModelComponent {
+  constructor(switchsModel, userModel, router) {
+    super(Handlebars.templates.swicthtable, switchsModel, null, null);
     
     
-    this.postsModel = postsModel;
+    this.switchsModel = switchsModel;
     this.userModel = userModel;
     this.addModel('user', userModel);
     this.router = router;
 
-    this.postsService = new PostsService();
+    this.switchsService = new SwitchsService();
 
   }
 
   onStart() {
-    this.updatePosts();
+    this.updateSwitchs();
   }
 
   updatePosts() {
-    this.postsService.findAllPosts().then((data) => {
+    this.switchsService.findAllPosts().then((data) => {
 
-      this.postsModel.setPosts(
+      this.switchsModel.setPosts(
         // create a Fronty.Model for each item retrieved from the backend
         data.map(
           (item) => new PostModel(item.id, item.title, item.author_id)

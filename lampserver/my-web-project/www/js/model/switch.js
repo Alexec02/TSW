@@ -34,7 +34,7 @@ class SwitchModel extends Fronty.Model {
     if (descripcion) {
       this.descripcion = descripcion;
     }
-
+  }
   /*setTitle(title) {
     this.set((self) => {
       self.title = title;
@@ -46,4 +46,5 @@ class SwitchModel extends Fronty.Model {
       self.author_id = author_id;
     });
   }*/
+
 }
