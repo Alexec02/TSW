@@ -1,27 +1,27 @@
-class PostViewComponent extends Fronty.ModelComponent {
-  constructor(postsModel, userModel, router) {
-    super(Handlebars.templates.postview, postsModel);
+class SwitchViewComponent extends Fronty.ModelComponent {
+  constructor(switchsModel, userModel, router) {
+    super(Handlebars.templates.switchview, switchsModel);
 
-    this.postsModel = postsModel; // posts
+    this.switchsModel = switchsModel; // switchs
     this.userModel = userModel; // global
     this.addModel('user', userModel);
     this.router = router;
 
-    this.postsService = new PostsService();
+    this.switchsService = new SwitchsService();
 
     this.addEventListener('click', '#savecommentbutton', () => {
       var selectedId = this.router.getRouteQueryParam('id');
-      this.postsService.createComment(selectedId, {
+      this.switchsService.createComment(selectedId, {
           content: $('#commentcontent').val()
         })
         .then(() => {
           $('#commentcontent').val('');
-          this.loadPost(selectedId);
+          this.loadSwitch(selectedId);
         })
         .fail((xhr, errorThrown, statusText) => {
           if (xhr.status == 400) {
-            this.postsModel.set(() => {
-              this.postsModel.commentErrors = xhr.responseJSON;
+            this.switchsModel.set(() => {
+              this.switchsModel.commentErrors = xhr.responseJSON;
             });
           } else {
             alert('an error has occurred during request: ' + statusText + '.' + xhr.responseText);
@@ -31,15 +31,16 @@ class PostViewComponent extends Fronty.ModelComponent {
   }
 
   onStart() {
-    var selectedId = this.router.getRouteQueryParam('id');
-    this.loadPost(selectedId);
+    var publicid = this.router.getRouteQueryParam('publicid');
+    var privateid = this.router.getRouteQueryParam('privateid');
+    this.loadSwitch(publicid,privateid);
   }
 
-  loadPost(postId) {
-    if (postId != null) {
-      this.postsService.findPost(postId)
-        .then((post) => {
-          this.postsModel.setSelectedPost(post);
+  loadSwitch(publicid,privateid) {
+    if (publicid != null || privateid != null) {
+      this.switchsService.findSwitch(publicid,privateid)
+        .then((switchs) => {
+          this.switchsModel.setSelectedSwitch(switchs);
         });
     }
   }

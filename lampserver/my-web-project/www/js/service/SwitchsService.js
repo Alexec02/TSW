@@ -7,11 +7,11 @@ class SwitchsService {
     return $.get(AppConfig.backendServer+'/rest/switchs');
   }
 
-  findSwitch(publicid,privateid) {
+  findSwitch(publicid=NULL,privateid=NULL) {
     return $.get(AppConfig.backendServer+'/rest/switchs/' + publicid + privateid);
   }
 
-  deleteSwitch(publicid,privateid) {
+  deleteSwitch(publicid=NULL,privateid=NULL) {
     return $.ajax({
       url: AppConfig.backendServer+'/rest/switchs/' + publicid + privateid,
       method: 'DELETE'

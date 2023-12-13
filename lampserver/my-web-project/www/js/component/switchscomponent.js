@@ -16,28 +16,28 @@ class SwitchsComponent extends Fronty.ModelComponent {
     this.updateSwitchs();
   }
 
-  updatePosts() {
-    this.switchsService.findAllPosts().then((data) => {
+  updateSwitchs() {
+    this.switchsService.findAllSwitchs().then((data) => {
 
-      this.switchsModel.setPosts(
+      this.switchsModel.setSwitchs(
         // create a Fronty.Model for each item retrieved from the backend
         data.map(
-          (item) => new PostModel(item.id, item.title, item.author_id)
+          (item) => new SwitchModel(item.publicid,item.privateid,publicid, item.privateid, item.nombre, item.estado, item.ultima_modificaion, item.encendido_hasta, item.descripcion, item.alias)
       ));
     });
   }
 
   // Override
   createChildModelComponent(className, element, id, modelItem) {
-    return new PostRowComponent(modelItem, this.userModel, this.router, this);
+    return new SwitchRowComponent(modelItem, this.userModel, this.router, this);
   }
 }
 
-class PostRowComponent extends Fronty.ModelComponent {
-  constructor(postModel, userModel, router, postsComponent) {
+class SwitchRowComponent extends Fronty.ModelComponent {
+  constructor(switchModel, userModel, router, switchsComponent) {
     super(Handlebars.templates.postrow, postModel, null, null);
     
-    this.postsComponent = postsComponent;
+    this.switchsComponent = switchsComponent;
     
     this.userModel = userModel;
     this.addModel('user', userModel); // a secondary model
@@ -46,20 +46,28 @@ class PostRowComponent extends Fronty.ModelComponent {
 
     this.addEventListener('click', '.remove-button', (event) => {
       if (confirm(I18n.translate('Are you sure?'))) {
-        var postId = event.target.getAttribute('item');
-        this.postsComponent.postsService.deletePost(postId)
+        var publicid = event.target.getAttribute('publicid');
+        var privateid = event.target.getAttribute('privateid');
+        this.switchsComponent.switchsService.deleteSwitch(publicid,privateid)
           .fail(() => {
             alert('post cannot be deleted')
           })
           .always(() => {
-            this.postsComponent.updatePosts();
+            this.switchsComponent.updateSwitchs();
           });
       }
     });
 
     this.addEventListener('click', '.edit-button', (event) => {
-      var postId = event.target.getAttribute('item');
-      this.router.goToPage('edit-post?id=' + postId);
+      var publicid = event.target.getAttribute('publicid');
+        var privateid = event.target.getAttribute('privateid');
+        this.switchsComponent.switchsService.editSwitch(publicid,privateid)
+          .fail(() => {
+            alert('switch cannot be edited')
+          })
+          .always(() => {
+            this.switchsComponent.updateSwitchs();
+          });
     });
   }
 
