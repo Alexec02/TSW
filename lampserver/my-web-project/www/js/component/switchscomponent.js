@@ -35,7 +35,7 @@ class SwitchsComponent extends Fronty.ModelComponent {
 
 class SwitchRowComponent extends Fronty.ModelComponent {
   constructor(switchModel, userModel, router, switchsComponent) {
-    super(Handlebars.templates.postrow, postModel, null, null);
+    super(Handlebars.templates.switchrow, switchModel, null, null);
     
     this.switchsComponent = switchsComponent;
     
@@ -50,7 +50,7 @@ class SwitchRowComponent extends Fronty.ModelComponent {
         var privateid = event.target.getAttribute('privateid');
         this.switchsComponent.switchsService.deleteSwitch(privateid)  
                .fail(() => {
-            alert('post cannot be deleted')
+            alert('switch cannot be deleted')
           })
           .always(() => {
             this.switchsComponent.updateSwitchs();

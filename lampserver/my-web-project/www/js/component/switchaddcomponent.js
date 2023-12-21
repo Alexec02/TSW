@@ -1,6 +1,6 @@
 class SwitchAddComponent extends Fronty.ModelComponent {
   constructor(switchsModel, userModel, router) {
-    super(Handlebars.templates.postedit, switchsModel);
+    super(Handlebars.templates.switchedit, switchsModel);
     this.switchsModel = switchsModel; // posts
     
     this.userModel = userModel; // global
@@ -14,7 +14,7 @@ class SwitchAddComponent extends Fronty.ModelComponent {
       newSwitch.title = $('#nombre').val();
       newSwitch.descripcion = $('#descripcion').val();
       newSwitch.author_id = this.userModel.currentUser;
-      this.switchsService.addPost(newSwitch)
+      this.switchsService.addSwitch(newSwitch)
         .then(() => {
           this.router.goToPage('switchs');
         })
