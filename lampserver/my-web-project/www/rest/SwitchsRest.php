@@ -135,13 +135,13 @@ class SwitchsRest extends BaseRest {
         }
     }
 
-    public function deleteSwitch($publicId, $privateId) {
+    public function deleteSwitch($privateId, $currentUser) {
         $currentUser = parent::authenticateUser();
-        $switch = $this->switchsMapper->findById($publicId, $privateId);
+        $switch = $this->switchsMapper->findById($privateId);
 
         if ($switch == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            echo("Switch with public_id ".$publicId." and private_id ".$privateId." not found");
+            echo("Switch with private_id ".$privateId." not found");
             return;
         }
 
@@ -164,4 +164,4 @@ URIDispatcher::getInstance()
     ->map("GET",    "/switchs/$1/$2", array($switchsRest,"readSwitch"))
     ->map("POST",   "/switchs", array($switchsRest,"createSwitch"))
     ->map("PUT",    "/switchs/$1/$2", array($switchsRest,"updateSwitch"))
-    ->map("DELETE", "/switchs/$1/$2", array($switchsRest,"deleteSwitch"));
+    ->map("DELETE", "/switchs/$1", array($switchsRest,"deleteSwitch"));

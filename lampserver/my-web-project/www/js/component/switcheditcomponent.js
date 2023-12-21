@@ -1,7 +1,7 @@
 class SwitchEditComponent extends Fronty.ModelComponent {
   constructor(switchsModel, userModel, router) {
     super(Handlebars.templates.switchedit, switchsModel);
-    this.switchsModel = switchsModel; // posts
+    this.switchsModel = switchsModel; // switchs
     this.userModel = userModel; // global
     this.addModel('user', userModel);
     this.router = router;
@@ -14,16 +14,16 @@ class SwitchEditComponent extends Fronty.ModelComponent {
       this.switchsModel.selectedSwitch.privateid = $('#privateid').val();
       this.switchsModel.selectedSwitch.nombre = $('#nombre').val();
       this.switchsModel.selectedSwitch.encendido_hasta = $('#encendido_hasta').val();
-      this.switchsService.savePost(this.switchsModel.selectedSwitch)
+      this.switchsService.saveSwitch(this.switchsModel.selectedSwitch)
         .then(() => {
-          this.postsModel.set((model) => {
+          this.switchsModel.set((model) => {
             model.errors = []
           });
-          this.router.goToPage('posts');
+          this.router.goToPage('switchs');
         })
         .fail((xhr, errorThrown, statusText) => {
           if (xhr.status == 400) {
-            this.postsModel.set((model) => {
+            this.switchsModel.set((model) => {
               model.errors = xhr.responseJSON;
             });
           } else {
@@ -35,11 +35,12 @@ class SwitchEditComponent extends Fronty.ModelComponent {
   }
 
   onStart() {
-    var selectedId = this.router.getRouteQueryParam('id');
-    if (selectedId != null) {
-      this.postsService.findPost(selectedId)
-        .then((post) => {
-          this.postsModel.setSelectedPost(post);
+    var privateid = this.router.getRouteQueryParam('id');
+    var publicid = this.router.getRouteQueryParam('id');
+    if (privateid != null || publicid != null ) {
+      this.switchsService.findSwitch(privateid, publicid)
+        .then((switchs) => {
+          this.switchsModel.setSelectedSwitch(switchs);
         });
     }
   }

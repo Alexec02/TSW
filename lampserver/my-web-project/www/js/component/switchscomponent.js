@@ -46,10 +46,10 @@ class SwitchRowComponent extends Fronty.ModelComponent {
 
     this.addEventListener('click', '.remove-button', (event) => {
       if (confirm(I18n.translate('Are you sure?'))) {
-        var publicid = event.target.getAttribute('publicid');
+       // var publicid = event.target.getAttribute('publicid');
         var privateid = event.target.getAttribute('privateid');
-        this.switchsComponent.switchsService.deleteSwitch(publicid,privateid)
-          .fail(() => {
+        this.switchsComponent.switchsService.deleteSwitch(privateid)  
+               .fail(() => {
             alert('post cannot be deleted')
           })
           .always(() => {

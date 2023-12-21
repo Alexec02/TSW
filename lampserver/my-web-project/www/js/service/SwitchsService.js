@@ -11,9 +11,9 @@ class SwitchsService {
     return $.get(AppConfig.backendServer+'/rest/switchs/' + publicid + privateid);
   }
 
-  deleteSwitch(publicid=NULL,privateid=NULL) {
+  deleteSwitch(privateid=NULL) {
     return $.ajax({
-      url: AppConfig.backendServer+'/rest/switchs/' + publicid + privateid,
+      url: AppConfig.backendServer+'/rest/switchs/' +privateid,
       method: 'DELETE'
     });
   }

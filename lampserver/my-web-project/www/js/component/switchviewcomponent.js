@@ -10,13 +10,14 @@ class SwitchViewComponent extends Fronty.ModelComponent {
     this.switchsService = new SwitchsService();
 
     this.addEventListener('click', '#savecommentbutton', () => {
-      var selectedId = this.router.getRouteQueryParam('id');
-      this.switchsService.createComment(selectedId, {
+      var publicid = this.router.getRouteQueryParam('publicid');
+      var privateid = this.router.getRouteQueryParam('privateid');
+      this.switchsService.createComment(publicid, privateid, {
           content: $('#commentcontent').val()
         })
         .then(() => {
           $('#commentcontent').val('');
-          this.loadSwitch(selectedId);
+          this.loadSwitch(publicid, privateid);
         })
         .fail((xhr, errorThrown, statusText) => {
           if (xhr.status == 400) {

@@ -8,19 +8,37 @@ class SubscriptionViewComponent extends Fronty.ModelComponent {
   
       this.subscriptionService = new SubscriptionService();
   
-      this.addEventListener('click', '#savebutton', () => {
-        // Lógica para guardar comentarios en la suscripción
+      this.addEventListener('click', '#savecommentbutton', () => {
+        var publicid = this.router.getRouteQueryParam('publicid');
+        var privateid = this.router.getRouteQueryParam('privateid');
+        this.subscriptionsService.createComment(publicid, privateid, {
+            content: $('#commentcontent').val()
+          })
+          .then(() => {
+            $('#commentcontent').val('');
+            this.loadSubscription(publicid, privateid);
+          })
+          .fail((xhr, errorThrown, statusText) => {
+            if (xhr.status == 400) {
+              this.subscriptionsModel.set(() => {
+                this.subscriptionsModel.commentErrors = xhr.responseJSON;
+              });
+            } else {
+              alert('an error has occurred during request: ' + statusText + '.' + xhr.responseText);
+            }
+          });
       });
     }
   
     onStart() {
-      var selectedId = this.router.getRouteQueryParam('id');
-      this.loadSubscription(selectedId);
+      var publicid = this.router.getRouteQueryParam('publicid');
+        var privateid = this.router.getRouteQueryParam('privateid');
+      this.loadSubscription(publicid, privateid);
     }
   
-    loadSubscription(subscriptionId) {
-      if (subscriptionId != null) {
-        this.subscriptionService.findSubscription(subscriptionId)
+    loadSubscription(publicid, privateid) {
+      if (publicid != null || privateid != null) {
+        this.subscriptionService.findSubscription(publicid, privateid)
           .then((subscription) => {
             this.subscriptionsModel.setSelectedSubscription(subscription);
           });
