@@ -10,13 +10,13 @@ class MainComponent extends Fronty.RouterComponent {
 
     super.setRouterConfig({
       switchs: {
-        component: new SwitchComponent(this.switchsModel, this.userModel, this),
+        component: new SwitchsComponent(this.switchsModel, this.userModel, this),
         title: 'Switchs'
       },
-      'view-switch': {
+      /*'view-switch': {
         component: new SwitchViewComponent(this.switchsModel, this.userModel, this),
         title: 'Switch'
-      },
+      },*/
       'edit-switch': {
         component: new SwitchEditComponent(this.switchsModel, this.userModel, this),
         title: 'Edit Switch'

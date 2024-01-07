@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Title</title>
+    <!-- Incluimos los archivos CSS y JS de Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-image: url('images/fondo5.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="switch-container rounded">
+                    <h2 class="text-dark" style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);">
+                        {{i18n "My Switchs"}} <a href="index.php?controller=switchs&amp;action=add&amp;">{{i18n "Edit"}}<button class="btn btn-dark"> +</button></a></h2>
+                    
+                    <div class="switch-list-container">
+                        {{#each switchs}}
+                            {{#ifCond ../currentusername '===' alias.username}}
+                                <div class="switch-item-container border p-3 mb-4 bg-light shadow rounded switch-item-container" data-state="apagado">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <!-- First Column: Name, Circle Image, and Time On -->
+                                            <h4 class="text-dark">{{ nombre }}</h4>
+                                            <span class="text-dark">
+                                                {{#if (eq encendido false)}}
+                                                    <img class="small-image" src="images/circuloRojo.png">
+                                                {{else}}
+                                                    <img class="small-image" src="images/circuloVerde.png">
+                                                {{/if}}
+                                            </span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!-- Second Column: Buttons (Switch On/Off, Delete) -->
+                                            <form method="POST" action="index.php?controller=switchs&amp;action=edit" class="d-flex align-items-center">
+                                                <input type="hidden" name="public_id" value="{{ publicId }}">
+                                                <input type="hidden" name="private_id" value="{{ privateId }}">
+                                                {{#if (eq encendido false)}}
+                                                    <input type="hidden" name="estado" value=1>
+                                                    <span class="text-dark">{{i18n "Time on"}}</span>
+                                                    <input type="number" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
+                                                    <button class="btn btn-success">{{i18n "Switch on"}}</button>
+                                                {{else}}
+                                                    <input type="hidden" name="encendido_hasta" value=0>
+                                                    <input type="hidden" name="estado" value=0>
+                                                    <button class="btn btn-danger">{{i18n "Switch off"}}</button>
+                                                {{/if}}
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <!-- Third Row: Public ID and Private ID -->
+                                            <form method="POST" action="index.php?controller=switchs&amp;action=delete" class="d-flex align-items-center">
+                                                <input type="hidden" name="public_id" value="{{ publicId }}">
+                                                <input type="hidden" name="private_id" value="{{ privateId }}">
+                                                <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) { this.parentNode.submit() }" class="btn btn-danger">{{i18n "Delete"}}</a>
+                                                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;public_id={{ publicId }}">{{ publicId }}</a></span>
+                                                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;private_id={{ privateId }}">{{ privateId }}</a></span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/ifCond}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="subscription-container rounded">
+                    <h2 class="text-dark" style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);">
+                        {{i18n "My Subscriptions"}}</h2>
+                    
+                    <div class="switch-list-container">
+                        {{#each subscriptions}}
+                            {{#ifCond ../currentusername '===' alias.username}}
+                                <div class="switch-item-container border p-2 mb-3 bg-light shadow-2 rounded subscription-item-container" data-state="apagado">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h4 class="text-dark">{{ switchs.nombre }}</h4>
+                                            {{#if (eq switchs.encendido false)}}
+                                                <img class="small-image" src="images/circuloRojo.png">
+                                            {{else}}
+                                                <img class="small-image" src="images/circuloVerde.png">
+                                            {{/if}}
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="text-dark">{{i18n "Author"}}: {{ switchs.alias.username }}</span>
+                                            {{#if (eq switchs.encendido false)}}
+                                                <span class="text-dark">{{i18n "Last modification"}}: {{ switchs.encendidoHasta }}</span>
+                                            {{else}}
+                                                <span class="text-dark">{{i18n "Time on"}}: {{ switchs.tiempoEncendido }}</span>
+                                            {{/if}}
+                                            <form method="POST" action="index.php?controller=subscription&amp;action=delete" style="display: inline">
+                                                <input type="hidden" name="public_id" value="{{ switchs.publicId }}">
+                                                <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) { this.parentNode.submit() }" class="btn btn-danger mt-2">{{i18n "Delete"}}</a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/ifCond}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

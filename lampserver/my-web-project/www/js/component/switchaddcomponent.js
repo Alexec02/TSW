@@ -7,7 +7,7 @@ class SwitchAddComponent extends Fronty.ModelComponent {
     this.addModel('user', userModel);
     this.router = router;
 
-    this.switchsService = new switchsService();
+    this.switchsService = new SwitchsService();
 
     this.addEventListener('click', '#savebutton', () => {
       var newSwitch = {};
