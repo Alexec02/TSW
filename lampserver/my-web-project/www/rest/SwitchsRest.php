@@ -22,11 +22,12 @@ class SwitchsRest extends BaseRest {
     }
 
     public function getSwitchs() {
+        $currentUser = parent::authenticateUser();
         $switchs = $this->switchsMapper->findAll();
 
         $switchs_array = array();
         foreach($switchs as $switch) {
-					if ($switch->getAlias() = $currentUser){
+					if ($switch->getAlias() == $currentUser){
             array_push($switchs_array, array(
                 "public_id" => $switch->getPublicId(),
                 "private_id" => $switch->getPrivateId(),
@@ -79,17 +80,17 @@ class SwitchsRest extends BaseRest {
     }
 
     public function readSwitch($publicid=NULL,$privateid=NULL) {
-        $switch = $this->switchsMapper->findById($publicId, $privateId);
+        $switch = $this->switchsMapper->findById($publicid, $privateid);
 
         if ($switch == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            echo("Switch with public_id ".$publicId." and private_id ".$privateId." not found");
+            echo("Switch with public_id ".$publicid." and private_id ".$privateid." not found");
             return;
         }
 
         $switch_array = array(
             "public_id" => $switch->getPublicId(),
-            "private_id" => ($private_id!=NULL)?$switch->getPrivateId():NULL,//No se si esto funciona, si no funciona, crear dos opciones de array
+            "private_id" => ($privateid!=NULL)?$switch->getPrivateId():NULL,//No se si esto funciona, si no funciona, crear dos opciones de array
             "nombre" => $switch->getNombre(),
             "descripcion" => $switch->getDescripcion(),
             "estado" => $switch->getEstado(),
@@ -136,7 +137,6 @@ class SwitchsRest extends BaseRest {
     }
 
     public function deleteSwitch($privateId, $currentUser) {
-        $currentUser = parent::authenticateUser();
         $switch = $this->switchsMapper->findById($privateId);
 
         if ($switch == NULL) {

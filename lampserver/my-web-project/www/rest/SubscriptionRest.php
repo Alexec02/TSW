@@ -28,7 +28,7 @@ class SubscriptionRest extends BaseRest {
 
         $subscriptions_array = array();
         foreach($subscriptions as $subscription) {
-					if ($subscription->getAlias() = $currentUser){
+					if ($subscription->getAlias() == $currentUser){
             array_push($subscriptions_array, array(
                 "public_id" => $subscription->getSwitchs()->getPublicId(),
                 "private_id" => $subscription->getSwitchs()->getPrivateId(),
@@ -84,7 +84,7 @@ class SubscriptionRest extends BaseRest {
 
     public function readSubscription($publicId=NULL, $privateId=NULL) {
         $currentUser = parent::authenticateUser();
-        $subscription = $this->subscriptionMapper-> findByIdUser($publicid,$currentUser);
+        $subscription = $this->subscriptionMapper-> findByIdUser($publicId,$currentUser);
         
         if ($subscription == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -94,7 +94,7 @@ class SubscriptionRest extends BaseRest {
 
         $subscription_array = array(
 						"public_id" => $subscription->getSwitchs()->getPublicId(),
-            "private_id" => $private_id,
+            "private_id" => $privateId,
             "nombre" => $subscription->getSwitchs()->getNombre(),
             "descripcion" => $subscription->getSwitchs()->getDescripcion(),
             "estado" => $subscription->getSwitchs()->getEstado(),
