@@ -6,6 +6,11 @@
 -- Tiempo de generación: 31-10-2023 a las 13:01:36
 -- Versión del servidor: 8.0.26-0ubuntu0.20.04.2
 -- Versión de PHP: 8.0.10
+create database tswblog;
+
+CREATE USER 'tswuser'@'localhost' IDENTIFIED BY 'tswblogpass';
+GRANT ALL PRIVILEGES ON tswblog.* TO 'tswuser'@'localhost' WITH GRANT OPTION;
+use tswblog;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;

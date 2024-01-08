@@ -29,9 +29,9 @@ class MainComponent extends Fronty.RouterComponent {
         component: new LoginComponent(this.userModel, this),
         title: 'Login'
       },
-      defaultRoute: 'switchs'
+      defaultRoute: 'login'
     });
-
+    
     Handlebars.registerHelper('currentPage', () => {
           return super.getCurrentPage();
     });
@@ -42,15 +42,15 @@ class MainComponent extends Fronty.RouterComponent {
   }
 
   start() {
-    // override the start() function in order to first check if there is a logged user
-    // in sessionStorage, so we try to do a relogin and start the main component
-    // only when login is checked
     this.userService.loginWithSessionData()
       .then((logged) => {
         if (logged != null) {
           this.userModel.setLoggeduser(logged);
+          this.goToPage('switchs'); // Redirige a switchs si hay un usuario logueado
+        } else {
+          this.goToPage('login'); // Redirige a la página de login si no hay usuario logueado
         }
-        super.start(); // now we can call start
+        super.start(); // Llama a start después de la redirección
       });
   }
 

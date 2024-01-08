@@ -37,8 +37,10 @@ Promise.all([
       Handlebars.templates.switchstable = Handlebars.compile(source)),
     loadTextFile('templates/components/switch-edit.hbs').then((source) =>
       Handlebars.templates.switchedit = Handlebars.compile(source)),
-    //loadTextFile('templates/components/switch-view.hbs').then((source) =>
-      //Handlebars.templates.switchview = Handlebars.compile(source)),
+    loadTextFile('templates/components/switchs-index.hbs').then((source) =>
+      Handlebars.templates.switchsindex = Handlebars.compile(source)),
+    loadTextFile('templates/components/switchs-view.hbs').then((source) =>
+      Handlebars.templates.switchview = Handlebars.compile(source)),
     loadTextFile('templates/components/switch-row.hbs').then((source) =>
       Handlebars.templates.switchrow = Handlebars.compile(source))
   ])

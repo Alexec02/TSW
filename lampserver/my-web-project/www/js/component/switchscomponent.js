@@ -1,5 +1,35 @@
 class SwitchsComponent extends Fronty.ModelComponent {
   constructor(switchsModel, userModel, router) {
+    super(Handlebars.templates.switchsindex, switchsModel, null, null);
+    
+    this.switchsModel = switchsModel;
+    this.userModel = userModel;
+    this.addModel('user', userModel);
+    this.router = router;
+
+    this.switchsService = new SwitchsService();
+  }
+
+  onStart() {
+    this.updateSwitchs();
+  }
+
+  updateSwitchs() {
+    this.switchsService.findAllSwitchs().then((data) => {
+      // Aquí se envían todos los datos a la plantilla de Handlebars
+      this.switchsModel.setSwitchs(
+        data.map(
+        (item) => new SwitchModel(item.publicid,item.privateid, item.nombre, item.estado, item.ultima_modificaion, item.encendido_hasta, item.descripcion, item.alias)
+      )
+    ); 
+      
+      console.log('Datos guardados:', this.switchsModel.switchs);
+    });
+  }
+}
+
+/*class SwitchsComponent extends Fronty.ModelComponent {
+  constructor(switchsModel, userModel, router) {
     super(Handlebars.templates.swicthtable, switchsModel, null, null);
     
     
@@ -72,3 +102,4 @@ class SwitchRowComponent extends Fronty.ModelComponent {
   }
 
 }
+*/
