@@ -16,7 +16,7 @@ class MainComponent extends Fronty.RouterComponent {
       /*'view-switch': {
         component: new SwitchViewComponent(this.switchsModel, this.userModel, this),
         title: 'Switch'
-      },*/
+      },
       'edit-switch': {
         component: new SwitchEditComponent(this.switchsModel, this.userModel, this),
         title: 'Edit Switch'
@@ -24,12 +24,12 @@ class MainComponent extends Fronty.RouterComponent {
       'add-switch': {
         component: new SwitchAddComponent(this.switchsModel, this.userModel, this),
         title: 'Add Switch'
-      },
+      },*/
       login: {
         component: new LoginComponent(this.userModel, this),
         title: 'Login'
       },
-      defaultRoute: 'login'
+      defaultRoute: 'switchs'
     });
     
     Handlebars.registerHelper('currentPage', () => {
@@ -42,16 +42,19 @@ class MainComponent extends Fronty.RouterComponent {
   }
 
   start() {
+    
     this.userService.loginWithSessionData()
       .then((logged) => {
         if (logged != null) {
+          this.goToPage('switchs');
           this.userModel.setLoggeduser(logged);
-          this.goToPage('switchs'); // Redirige a switchs si hay un usuario logueado
+           // Redirige a switchs si hay un usuario logueado
         } else {
           this.goToPage('login'); // Redirige a la página de login si no hay usuario logueado
         }
-        super.start(); // Llama a start después de la redirección
+        // Llama a start después de la redirección
       });
+      super.start(); 
   }
 
   _createUserBarComponent() {

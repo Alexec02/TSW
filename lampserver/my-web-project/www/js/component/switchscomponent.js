@@ -15,17 +15,18 @@ class SwitchsComponent extends Fronty.ModelComponent {
   }
 
   updateSwitchs() {
-    this.switchsService.findAllSwitchs().then((data) => {
-      // Aquí se envían todos los datos a la plantilla de Handlebars
-      this.switchsModel.setSwitchs(
-        data.map(
-        (item) => new SwitchModel(item.publicid,item.privateid, item.nombre, item.estado, item.ultima_modificaion, item.encendido_hasta, item.descripcion, item.alias)
-      )
-    ); 
-      
-      console.log('Datos guardados:', this.switchsModel.switchs);
-    });
-  }
+  this.switchsService.findAllSwitchs().then((data) => {
+    console.log('Datos :', data);
+    // Actualiza el modelo con los switchs obtenidos
+    this.switchsModel.setSwitchs(data.map(
+      (item) => new SwitchModel(item.publicid, item.privateid, item.nombre, item.estado, item.ultima_modificaion, item.encendido_hasta, item.descripcion, item.alias)
+    ));
+
+    // Refleja los cambios en la vista
+    console.log('Datos guardados:', this.switchsModel.switchs);
+    //this.render();
+  });
+}
 }
 
 /*class SwitchsComponent extends Fronty.ModelComponent {
