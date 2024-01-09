@@ -1,14 +1,14 @@
 class SwitchModel extends Fronty.Model {
 
-  constructor(publicid, privateid, nombre, estado, ultima_modificaion, encendido_hasta, descripcion, alias) {
+  constructor(public_id, private_id, nombre, estado, tiempo_modificacion, encendido_hasta, descripcion, alias) {
     super('SwitchModel'); //call super
     
-    if (publicid) {
-      this.publicid = publicid;
+    if (public_id) {
+      this.public_id = public_id;
     }
     
-    if (privateid) {
-      this.privateid = privateid;
+    if (private_id) {
+      this.private_id = private_id;
     }
     
     if (alias) {
@@ -23,8 +23,8 @@ class SwitchModel extends Fronty.Model {
       this.estado = estado;
     }
     
-    if (ultima_modificaion) {
-      this.ultima_modificaion = ultima_modificaion;
+    if (tiempo_modificacion) {
+      this.tiempo_modificacion = tiempo_modificacion;
     }
     
     if (encendido_hasta) {

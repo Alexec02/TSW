@@ -19,7 +19,7 @@ class SwitchsComponent extends Fronty.ModelComponent {
     console.log('Datos :', data);
     // Actualiza el modelo con los switchs obtenidos
     this.switchsModel.setSwitchs(data.map(
-      (item) => new SwitchModel(item.publicid, item.privateid, item.nombre, item.estado, item.ultima_modificaion, item.encendido_hasta, item.descripcion, item.alias)
+      (item) => new SwitchModel(item.public_id, item.private_id, item.nombre, item.estado, item.tiempo_modificacion, item.encendido_hasta, item.descripcion, item.alias)
     ));
 
     // Refleja los cambios en la vista

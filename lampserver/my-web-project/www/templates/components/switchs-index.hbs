@@ -41,8 +41,8 @@
                                         <div class="col-md-6">
                                             <!-- Second Column: Buttons (Switch On/Off, Delete) -->
                                             <form method="POST" action="index.php?controller=switchs&amp;action=edit" class="d-flex align-items-center">
-                                                <input type="hidden" name="public_id" value="{{ this.publicId }}">
-                                                <input type="hidden" name="private_id" value="{{ this.privateId }}">
+                                                <input type="hidden" name="public_id" value="{{ this.public_id }}">
+                                                <input type="hidden" name="private_id" value="{{ this.private_id }}">
                                                 {{#if (eq this.encendido false)}}
                                                     <input type="hidden" name="estado" value=1>
                                                     <span class="text-dark">{{i18n "Time on"}}</span>
@@ -60,11 +60,11 @@
                                         <div class="col-md-12">
                                             <!-- Third Row: Public ID and Private ID -->
                                             <form method="POST" action="index.php?controller=switchs&amp;action=delete" class="d-flex align-items-center">
-                                                <input type="hidden" name="public_id" value="{{ this.publicId }}">
-                                                <input type="hidden" name="private_id" value="{{ this.privateId }}">
+                                                <input type="hidden" name="public_id" value="{{ this.public_id }}">
+                                                <input type="hidden" name="private_id" value="{{ this.private_id }}">
                                                 <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) { this.parentNode.submit() }" class="btn btn-danger">{{i18n "Delete"}}</a>
-                                                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;public_id={{ this.publicId }}">{{ this.publicId }}</a></span>
-                                                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;private_id={{ this.privateId }}">{{ this.privateId }}</a></span>
+                                                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;public_id={{ this.public_id }}">{{ this.public_id }}</a></span>
+                                                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;private_id={{ this.private_id }}">{{ this.private_id }}</a></span>
                                             </form>
                                         </div>
                                     </div>
@@ -93,12 +93,12 @@
                                         <div class="col-6">
                                             <span class="text-dark">{{i18n "Author"}}: {{ this.switchs.alias.username }}</span>
                                             {{#if (eq this.switchs.encendido false)}}
-                                                <span class="text-dark">{{i18n "Last modification"}}: {{ this.switchs.encendidoHasta }}</span>
+                                                <span class="text-dark">{{i18n "Last modification"}}: {{ this.switchs.tiempo_modificacion }}</span>
                                             {{else}}
-                                                <span class="text-dark">{{i18n "Time on"}}: {{ this.switchs.tiempoEncendido }}</span>
+                                                <span class="text-dark">{{i18n "Time on"}}: {{ this.switchs.encendido_hasta - this.switchs.tiempo_modificacion }}</span>
                                             {{/if}}
                                             <form method="POST" action="index.php?controller=subscription&amp;action=delete" style="display: inline">
-                                                <input type="hidden" name="public_id" value="{{ this.switchs.publicId }}">
+                                                <input type="hidden" name="public_id" value="{{ this.switchs.public_id }}">
                                                 <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) { this.parentNode.submit() }" class="btn btn-danger mt-2">{{i18n "Delete"}}</a>
                                             </form>
                                         </div>
