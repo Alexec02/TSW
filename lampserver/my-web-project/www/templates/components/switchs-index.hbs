@@ -31,10 +31,10 @@
                                             <!-- First Column: Name, Circle Image, and Time On -->
                                             <h4 class="text-dark">{{ this.nombre }}</h4>
                                             <span class="text-dark">
-                                                {{#if (eq this.encendido false)}}
-                                                    <img class="small-image" width="20px" height="20px" src="images/circuloRojo.png">
-                                                {{else}}
+                                                {{#if this.estado }}
                                                     <img class="small-image" width="20px" height="20px" src="images/circuloVerde.png">
+                                                {{else}}
+                                                    <img class="small-image" width="20px" height="20px" src="images/circuloRojo.png">
                                                 {{/if}}
                                             </span>
                                         </div>
@@ -43,15 +43,15 @@
                                             <form method="POST" action="index.php?controller=switchs&amp;action=edit" class="d-flex align-items-center">
                                                 <input type="hidden" name="public_id" value="{{ this.public_id }}">
                                                 <input type="hidden" name="private_id" value="{{ this.private_id }}">
-                                                {{#if (eq this.encendido false)}}
+                                                {{#if this.estado}}
+                                                    <input type="hidden" name="encendido_hasta" value=0>
+                                                    <input type="hidden" name="estado" value=0>
+                                                    <button class="btn btn-danger">{{i18n "Switch off"}}</button>
+                                                {{else}}
                                                     <input type="hidden" name="estado" value=1>
                                                     <span class="text-dark">{{i18n "Time on"}}</span>
                                                     <input type="number" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
                                                     <button class="btn btn-success">{{i18n "Switch on"}}</button>
-                                                {{else}}
-                                                    <input type="hidden" name="encendido_hasta" value=0>
-                                                    <input type="hidden" name="estado" value=0>
-                                                    <button class="btn btn-danger">{{i18n "Switch off"}}</button>
                                                 {{/if}}
                                             </form>
                                         </div>
@@ -80,25 +80,26 @@
                     
                     <div class="switch-list-container">
                         {{#each subscriptions}}
+                        
                                 <div class="switch-item-container border p-2 mb-3 bg-light shadow-2 rounded subscription-item-container" data-state="apagado">
                                     <div class="row">
                                         <div class="col-6">
-                                            <h4 class="text-dark">{{ switchs.nombre }}</h4>
-                                            {{#if (eq this.switchs.encendido false)}}
-                                                <img class="small-image" src="images/circuloRojo.png">
+                                            <h4 class="text-dark">{{ this.nombre }}</h4>
+                                            {{#if this.estado }}
+                                                <img class="small-image" width="20px" height="20px" src="images/circuloVerde.png">
                                             {{else}}
-                                                <img class="small-image" src="images/circuloVerde.png">
+                                                <img class="small-image" width="20px" height="20px" src="images/circuloRojo.png">
                                             {{/if}}
                                         </div>
                                         <div class="col-6">
-                                            <span class="text-dark">{{i18n "Author"}}: {{ this.switchs.alias.username }}</span>
-                                            {{#if (eq this.switchs.encendido false)}}
-                                                <span class="text-dark">{{i18n "Last modification"}}: {{ this.switchs.tiempo_modificacion }}</span>
+                                            <span class="text-dark">{{i18n "Author"}}: {{ this.alias }}</span>
+                                            {{#if this.estado }}
+                                                <span class="text-dark">{{i18n "Time on"}}: {{ this.encendido_hasta }}</span>
                                             {{else}}
-                                                <span class="text-dark">{{i18n "Time on"}}: {{ this.switchs.encendido_hasta - this.switchs.tiempo_modificacion }}</span>
+                                                <span class="text-dark">{{i18n "Last modification"}}: {{ this.tiempo_modificacion }}</span>
                                             {{/if}}
                                             <form method="POST" action="index.php?controller=subscription&amp;action=delete" style="display: inline">
-                                                <input type="hidden" name="public_id" value="{{ this.switchs.public_id }}">
+                                                <input type="hidden" name="public_id" value="{{ this.publicid }}">
                                                 <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) { this.parentNode.submit() }" class="btn btn-danger mt-2">{{i18n "Delete"}}</a>
                                             </form>
                                         </div>

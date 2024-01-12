@@ -31,20 +31,20 @@ class SubscriptionRest extends BaseRest {
 					if ($subscription->getAlias() == $currentUser){
             array_push($subscriptions_array, array(
                 "public_id" => $subscription->getSwitchs()->getPublicId(),
-                "private_id" => $subscription->getSwitchs()->getPrivateId(),
+                //"private_id" => $subscription->getSwitchs()->getPrivateId(),
                 "nombre" => $subscription->getSwitchs()->getNombre(),
                 "descripcion" => $subscription->getSwitchs()->getDescripcion(),
                 "estado" => $subscription->getSwitchs()->getEstado(),
                 "tiempo_modificacion" => $subscription->getSwitchs()->getUltimaModificacion(),
                 "encendido_hasta" => $subscription->getSwitchs()->getEncendidoHasta(),
-                "alias" => $subscription->getAlias()->getUsername(),
+                "alias" => $subscription->getSwitchs()->getAlias()->getUsername(),
             ));
 					}
         }
 
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
-        echo(json_encode($switchs_array));
+        echo(json_encode($subscriptions_array));
     }
 
     public function createSubscription($data) {
@@ -166,7 +166,7 @@ class SubscriptionRest extends BaseRest {
 // URI-MAPPING for this Rest endpoint
 $subscriptionRest = new SubscriptionRest();
 URIDispatcher::getInstance()
-    ->map("GET",    "/subscription", array($subscriptionRest,"getSubscription"))
+    ->map("GET",    "/subscription", array($subscriptionRest,"getSubscriptions"))
     ->map("GET",    "/subscription/$1/$2", array($subscriptionRest,"readSubscription"))
     ->map("POST",   "/subscription", array($subscriptionRest,"createSubscription"))
     //->map("PUT",    "/switchs/$1/$2", array($subscriptionRest,"updateSwitch"))

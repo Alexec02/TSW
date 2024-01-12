@@ -1,5 +1,5 @@
 class SwitchsComponent extends Fronty.ModelComponent {
-  constructor(switchsModel, userModel, router) {
+  constructor(switchsModel, userModel, subscriptionsModel, router) {
     super(Handlebars.templates.switchsindex, switchsModel, null, null);
     
     this.switchsModel = switchsModel;
@@ -8,6 +8,7 @@ class SwitchsComponent extends Fronty.ModelComponent {
     this.router = router;
 
     this.switchsService = new SwitchsService();
+    this.subscriptionService = new SubscriptionService();
   }
 
   onStart() {
@@ -16,16 +17,19 @@ class SwitchsComponent extends Fronty.ModelComponent {
 
   updateSwitchs() {
   this.switchsService.findAllSwitchs().then((data) => {
-    console.log('Datos :', data);
-    // Actualiza el modelo con los switchs obtenidos
     this.switchsModel.setSwitchs(data.map(
       (item) => new SwitchModel(item.public_id, item.private_id, item.nombre, item.estado, item.tiempo_modificacion, item.encendido_hasta, item.descripcion, item.alias)
     ));
 
-    // Refleja los cambios en la vista
-    console.log('Datos guardados:', this.switchsModel.switchs);
-    //this.render();
   });
+  this.subscriptionService.findAllSubscriptions().then((data) => {
+    console.log('Subscriptions data:', data);
+    this.switchsModel.setSubscriptions(data.map(
+      (item) => new SwitchModel(item.public_id, null, item.nombre, item.estado, item.tiempo_modificacion, item.encendido_hasta, item.descripcion, item.alias)
+    ));
+    console.log(this.switchsModel.subscriptions)
+  });
+  
 }
 }
 

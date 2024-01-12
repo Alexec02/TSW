@@ -4,7 +4,7 @@ Handlebars.registerHelper('if_eq', function(a, b, opts) {
   else
     return opts.inverse(this);
 });
-Handlebars.registerHelper('eq', function (value1, value2, options) {
+Handlebars.registerHelper('eq', function (value1, value2) {
   if (value1 === value2) {
       return true;
   } else {
