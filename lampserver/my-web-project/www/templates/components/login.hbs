@@ -1,22 +1,51 @@
+
 <span>
 {{#if isLogged}}
   {{i18n 'Your are logged. Logout first'}}
 {{else}}
   {{#i18n}}{{loginError}}{{/i18n}}<br>
-  {{i18n 'Username'}}: <input type="text" id="login"> <br> {{i18n 'Password'}}: <input type="password" id="password"><br>
-  <input type="submit" id='loginbutton' value="{{i18n 'Login'}}"> {{i18n 'New here?'}} <a href="#login" id='registerlink'>{{i18n 'Register Here!'}}</a>
-  {{#if registerMode}}
-    <h2>{{i18n 'New user'}}</h2>
-    <div id="registration-form">
-      {{i18n 'Username'}}: <input type="text" id="registerusername">
-      {{#i18n}}{{registerErrors.username}}{{/i18n}}<br>
-      {{i18n 'Password'}}: <input type="password" id="registerpassword">
-      {{#i18n}}{{registerErrors.passwd}}{{/i18n}}<br>
-      {{i18n 'Email'}}: <input type="text" id="registeremail">
-      {{#i18n}}{{registerErrors.passwd}}{{/i18n}}<br>
-      <input type="submit" id='registerbutton' value="{{i18n 'Create user'}}">
+  
+  <!-- Contenedor del formulario de inicio de sesión -->
+<div class="login-container container mt-5">
+  <form id="loginForm">
+    <div class="mb-3">
+      <label for="loginUsername" class="form-label">{{i18n 'Username'}}:</label>
+      <input type="text" class="form-control" id="login" name="loginUsername">
     </div>
-  {{/if}}
+    <div class="mb-3">
+      <label for="loginPassword" class="form-label">{{i18n 'Password'}}:</label>
+      <input type="password" class="form-control" id="password" name="loginPassword">
+    </div>
+    <button type="submit" class="btn btn-dark" id="loginbutton">{{i18n 'Login'}}</button>
+  </form>
 
-{{/if}}
+  <p class="mt-3">{{i18n 'New here?'}} <a href="#login" id='registerlink' class="btn btn-link">{{i18n 'Register Here!'}}</a></p>
+</div>
+  {{#if registerMode}}
+      <!-- Contenedor del formulario de registro -->
+      <div class="login-container container mt-5">
+        <h2>{{i18n 'New user'}}</h2>
+        <div id="registration-form">
+          <div class="mb-3">
+            <label for="registerUsername" class="form-label">{{i18n 'Username'}}:</label>
+            <input type="text" class="form-control" id="registerusername">
+            {{#i18n}}{{registerErrors.username}}{{/i18n}}<br>
+          </div>
+          <div class="mb-3">
+            <label for="registerPassword" class="form-label">{{i18n 'Password'}}:</label>
+            <input type="password" class="form-control" id="registerpassword">
+            {{#i18n}}{{registerErrors.passwd}}{{/i18n}}<br>
+          </div>
+          <div class="mb-3">
+            <label for="registerEmail" class="form-label">{{i18n 'Email'}}:</label>
+            <input type="text" class="form-control" id="registeremail">
+            {{#i18n}}{{registerErrors.passwd}}{{/i18n}}<br>
+          </div>
+          <button type="submit" class="btn btn-dark mt-3" id='registerbutton'>{{i18n 'Create user'}}</button>
+        </div>
+      </div>
+    {{/if}}
+
+  {{/if}}
 </span>
+
