@@ -13,8 +13,6 @@
         </div>
         <div class="col-md-6">
             <!-- Second Column: Buttons (Switch On/Off, Delete) -->
-            <input type="hidden" class="encendido_hasta" value=0>
-            <input type="hidden" class="estado" value=0>
             <button class="edit-button" item="{{private_id}}">editar</button>
             <form method="POST" action="index.php?controller=switchs&amp;action=edit" class="d-flex align-items-center">
                 <input type="hidden" name="public_id" value="{{  public_id }}">

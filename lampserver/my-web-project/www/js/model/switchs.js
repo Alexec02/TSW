@@ -7,6 +7,7 @@ class SwitchsModel extends Fronty.Model {
     this.switchs = [];
 
     this.subscriptions = [];
+
   }
 
   setSelectedSwitch(switchs) {

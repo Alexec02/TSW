@@ -9,7 +9,7 @@ class SwitchViewComponent extends Fronty.ModelComponent {
 
     this.switchsService = new SwitchsService();
 
-    this.addEventListener('click', '#savecommentbutton', () => {
+    /*this.addEventListener('click', '#savecommentbutton', () => {
       var publicid = this.router.getRouteQueryParam('publicid');
       var privateid = this.router.getRouteQueryParam('privateid');
       this.switchsService.createComment(publicid, privateid, {
@@ -28,7 +28,7 @@ class SwitchViewComponent extends Fronty.ModelComponent {
             alert('an error has occurred during request: ' + statusText + '.' + xhr.responseText);
           }
         });
-    });
+    });*/
   }
 
   onStart() {

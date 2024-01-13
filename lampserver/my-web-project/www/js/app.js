@@ -35,8 +35,8 @@ Promise.all([
       Handlebars.templates.login = Handlebars.compile(source)),
     loadTextFile('templates/components/switchs-index.hbs').then((source) =>
       Handlebars.templates.switchsindex = Handlebars.compile(source)),
-//    loadTextFile('templates/components/switchs-view.hbs').then((source) =>
-//      Handlebars.templates.switchview = Handlebars.compile(source)),
+    loadTextFile('templates/components/switchs-view.hbs').then((source) =>
+      Handlebars.templates.switchview = Handlebars.compile(source)),
     loadTextFile('templates/components/switch-row.hbs').then((source) =>
       Handlebars.templates.switchrow = Handlebars.compile(source)),
     loadTextFile('templates/components/subscription-row.hbs').then((source) =>

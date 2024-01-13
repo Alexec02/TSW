@@ -104,14 +104,14 @@ class SwitchsRest extends BaseRest {
         echo(json_encode($switch_array));
     }
 
-    public function updateSwitch($privateId, $data) {
+    public function updateSwitch($private_id, $data) {
         $currentUser = parent::authenticateUser();
-
-        $switch = $this->switchsMapper->findById($publicId, $privateId);
+        
+        $switch = $this->switchsMapper->findById(null, $private_id);
 
         if ($switch == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            echo("Switch with public_id ".$publicId." and private_id ".$privateId." not found");
+            echo("Switch with private_id ".$private_id." not found");
             return;
         }
 

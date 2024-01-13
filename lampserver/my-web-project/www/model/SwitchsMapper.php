@@ -110,8 +110,8 @@ class SwitchsMapper {
 		*/
 		public function update(Switchs $switch) {
 			
-			$horas=floor($switch->getEncendidoHasta()/60);
-			$minutos=$switch->getEncendidoHasta()%60;
+			$horas=floor(((int)$switch->getEncendidoHasta())/60);
+			$minutos=((int)$switch->getEncendidoHasta())%60;
 			$stmt = $this->db->prepare("UPDATE switch SET estado=?, tiempo_modificacion=CURRENT_TIMESTAMP(), encendido_hasta=tiempo_modificacion + INTERVAL ? HOUR + INTERVAL ? MINUTE WHERE public_id=? AND private_id=?");
 $stmt->execute(array($switch->getEstado(), $horas, $minutos, $switch->getPublicId(), $switch->getPrivateId()));
 			

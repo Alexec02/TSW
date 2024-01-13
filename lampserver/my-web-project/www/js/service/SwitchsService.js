@@ -8,7 +8,15 @@ class SwitchsService {
   }
 
   findSwitch(publicid=NULL,privateid=NULL) {
-    return $.get(AppConfig.backendServer+'/rest/switchs/' + publicid + privateid);
+    if(publicid!=null && privateid!=null){
+      return $.get(AppConfig.backendServer+'/rest/switchs/' + publicid + '/' + privateid);
+    }else if(privateid!=null){
+      console.log("find private "+privateid)
+      return $.get(AppConfig.backendServer+'/rest/switchs//' + privateid );
+    }else{
+      return $.get(AppConfig.backendServer+'/rest/switchs/' + publicid + '/' );
+    }
+    
   }
 
   deleteSwitch(privateid=NULL) {
@@ -20,7 +28,7 @@ class SwitchsService {
 
   saveSwitch(switchs) {
     return $.ajax({
-      url: AppConfig.backendServer+'/rest/switchs/' + switchs.privateid,
+      url: AppConfig.backendServer+'/rest/switchs/' + switchs.private_id,
       method: 'PUT',
       data: JSON.stringify(switchs),
       contentType: 'application/json'
