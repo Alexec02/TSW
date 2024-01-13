@@ -104,7 +104,7 @@ class SwitchsRest extends BaseRest {
         echo(json_encode($switch_array));
     }
 
-    public function updateSwitch($publicId, $privateId, $data) {
+    public function updateSwitch($privateId, $data) {
         $currentUser = parent::authenticateUser();
 
         $switch = $this->switchsMapper->findById($publicId, $privateId);
@@ -163,5 +163,5 @@ URIDispatcher::getInstance()
     ->map("GET",    "/switchs", array($switchsRest,"getSwitchs"))
     ->map("GET",    "/switchs/$1/$2", array($switchsRest,"readSwitch"))
     ->map("POST",   "/switchs", array($switchsRest,"createSwitch"))
-    ->map("PUT",    "/switchs/$1/$2", array($switchsRest,"updateSwitch"))
+    ->map("PUT",    "/switchs/$1", array($switchsRest,"updateSwitch"))
     ->map("DELETE", "/switchs/$1", array($switchsRest,"deleteSwitch"));

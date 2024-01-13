@@ -109,45 +109,13 @@ class SubscriptionRest extends BaseRest {
         echo(json_encode($subscription_array));
     }
 
-    /*public function updateSubscription($publicId, $privateId, $data) {
-        $currentUser = parent::authenticateUser();
-
-        $subscription = $this->subscriptionMapper->findById($publicId, $privateId);
-
-        if ($subscription == NULL) {
-            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            echo("Switch with public_id ".$publicId." and private_id ".$privateId." not found");
-            return;
-        }
-
-        if ($subscription->getAlias() != $currentUser) {
-            header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
-            echo("You are not the owner of this switch");
-            return;
-        }
-
-        $switch->setNombre($data->nombre);
-        $switch->setDescripcion($data->descripcion);
-
-        try {
-            $switch->checkIsValidForUpdate();
-            $this->switchsMapper->update($switch);
-
-            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
-        } catch (ValidationException $e) {
-            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            header('Content-Type: application/json');
-            echo(json_encode($e->getErrors()));
-        }
-    }*/
-
-    public function deleteSubscription($publicId, $privateId) {
+    public function deleteSubscription($publicId) {
         $currentUser = parent::authenticateUser();
         $subscription = $this->subscriptionMapper->findByIdUser($publicId, $currentUser);
 
         if ($subscription == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            echo("Switch with public_id ".$publicId." and private_id ".$privateId." not found");
+            echo("Switch with public_id ".$publicId." not found");
             return;
         }
 
@@ -167,7 +135,6 @@ class SubscriptionRest extends BaseRest {
 $subscriptionRest = new SubscriptionRest();
 URIDispatcher::getInstance()
     ->map("GET",    "/subscription", array($subscriptionRest,"getSubscriptions"))
-    ->map("GET",    "/subscription/$1/$2", array($subscriptionRest,"readSubscription"))
+    ->map("GET",    "/subscription/$1", array($subscriptionRest,"readSubscription"))
     ->map("POST",   "/subscription", array($subscriptionRest,"createSubscription"))
-    //->map("PUT",    "/switchs/$1/$2", array($subscriptionRest,"updateSwitch"))
-    ->map("DELETE", "/subscription/$1/$2", array($subscriptionRest,"deleteSubscription"));
+    ->map("DELETE", "/subscription/$1", array($subscriptionRest,"deleteSubscription"));

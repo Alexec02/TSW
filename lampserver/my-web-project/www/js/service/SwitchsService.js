@@ -20,7 +20,7 @@ class SwitchsService {
 
   saveSwitch(switchs) {
     return $.ajax({
-      url: AppConfig.backendServer+'/rest/switchs/' + switchs.publicid + switchs.privateid,
+      url: AppConfig.backendServer+'/rest/switchs/' + switchs.privateid,
       method: 'PUT',
       data: JSON.stringify(switchs),
       contentType: 'application/json'

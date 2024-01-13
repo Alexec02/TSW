@@ -1,72 +1,47 @@
-<tr key="{{id}}">
-  <td><a>{{Nombre}}</a></td>
-  <td>{{author_id}} ({{user.currentUser}})</td>
-  <td>
-
-    {{#if_eq user.currentUser author_id}}
-
-      <button class="remove-button" item="{{publicid}}{{privateid}}">{{i18n 'remove'}}</button>
-      <button class="edit-button" item="{{publicid}}{{privateid}}">{{i18n 'edit'}}</button>
-    {{/if_eq}}
-  </td>
-</tr>
-
-<!--  Handelbars Switch
-<div class="switch-item-container border p-3 mb-4 bg-light shadow rounded switch-item-container" data-state="apagado">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-6">
-
-                                            <h4 class="text-dark"> {{nombre}} </h4>
-                                            <span class="text-dark">
-                                                {{#if_eq {{encendido}}  false}}
-                                                    <img class="small-image" src="images/circuloRojo.png">
-                                                {{else}}
-                                                    <img class="small-image" src="images/circuloVerde.png">
-                                                {{/if_eq}}
-                                            </span>
-                                        </div>
-                                        <div class="col-md-6">
-
-                                            <form method="POST" action="index.php?controller=switchs&amp;action=edit"
-                                                id="edit_switch_ {{publicId}} _ {{privateId}}"
-                                                class="d-flex align-items-center">
-                                                <input type="hidden" name="public_id" value="{{publicId}}">
-                                                <input type="hidden" name="private_id" value="{{privateId}}">
-                                                {{#if_eq {{encendido}}  false}}
-                                                    <input type="hidden" name="estado" value=1>
-                                                    <span class="text-dark">{{i18n("Time on ")}}</span>
-                                                    <input type="number" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
-                                                    <button class="btn btn-success" onclick="document.getElementById('edit_switch_{{publicId}}_{{privateId}}').submit()">{{i18n("Switch on")}}</button>
-                                                {{else}}
-                                                    <input type="hidden" name="encendido_hasta" value=0>
-                                                    <input type="hidden" name="estado" value=0>
-                                                    <button class="btn btn-danger" onclick="document.getElementById('edit_switch_{{publicId}}_{{privateId}}').submit()">{{18n("Switch off")}}</button>
-                                                {{/if_eq}}
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-12">
-
-                                            <form method="POST" action="index.php?controller=switchs&amp;action=delete"
-                                                id="delete_switch_{{publicId}}_{{privateId}}"
-                                                class="d-flex align-items-center">
-                                                <input type="hidden" name="public_id" value="{{publicId}}">
-                                                <input type="hidden" name="private_id" value="{{privateId}}">
-                                                <a href="#"
-                                                    onclick="
-                                                    if (confirm('<?= i18n("are you sure?")?>')) {
-                                                        document.getElementById('delete_switch_{{publicId}}_{{privateId}}').submit()
-                                                    }"
-                                                    class="btn btn-danger">{{i18n("Delete")}}  </a>
-                                                <span class="ml-2 text-dark">{{i18n("Public ID: ")}}<a href="http://localhost/index.php?controller=switchs&action=view&public_id={{publicId}}">{{publicId}}</a></span>
-                                                <span class="ml-2 text-dark">{{i18n("Private ID: ")}}<a href="http://localhost/index.php?controller=switchs&action=view&private_id={{privateId}}">{{privateId}}</a></span>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-
- -->
+<div class="switch-item-container border p-3 mb-4 bg-light shadow rounded switch-item-container" data-state="apagado" key="{{public_id}}">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <!-- First Column: Name, Circle Image, and Time On -->
+            <h4 class="text-dark">{{  nombre }}</h4>
+            <span class="text-dark">
+                {{#if  estado }}
+                    <img class="small-image" width="20px" height="20px" src="images/circuloVerde.png">
+                {{else}}
+                    <img class="small-image" width="20px" height="20px" src="images/circuloRojo.png">
+                {{/if}}
+            </span>
+        </div>
+        <div class="col-md-6">
+            <!-- Second Column: Buttons (Switch On/Off, Delete) -->
+            <input type="hidden" class="encendido_hasta" value=0>
+            <input type="hidden" class="estado" value=0>
+            <button class="edit-button" item="{{private_id}}">editar</button>
+            <form method="POST" action="index.php?controller=switchs&amp;action=edit" class="d-flex align-items-center">
+                <input type="hidden" name="public_id" value="{{  public_id }}">
+                <input type="hidden" name="private_id" value="{{  private_id }}">
+                {{#if  estado}}
+                    <input type="hidden" name="encendido_hasta" value=0>
+                    <input type="hidden" name="estado" value=0>
+                    <button class="btn btn-danger">{{i18n "Switch off"}}</button>
+                {{else}}
+                    <input type="hidden" name="estado" value=1>
+                    <span class="text-dark">{{i18n "Time on"}}</span>
+                    <input type="number" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
+                    <button class="btn btn-success">{{i18n "Switch on"}}</button>
+                {{/if}}
+            </form>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <!-- Third Row: Public ID and Private ID -->
+            <form method="POST" action="index.php?controller=switchs&amp;action=delete" class="d-flex align-items-center">
+                <input type="hidden" name="public_id" value="{{  public_id }}">
+                <input type="hidden" name="private_id" value="{{  private_id }}">
+                <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) {  parentNode.submit() }" class="btn btn-danger">{{i18n "Delete"}}</a>
+                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;public_id={{  public_id }}">{{  public_id }}</a></span>
+                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;private_id={{  private_id }}">{{  private_id }}</a></span>
+            </form>
+        </div>
+    </div>
+</div>
