@@ -32,6 +32,8 @@ I18n.translations = {
   'Login': 'Iniciar sesión',
   'Username': 'Usuario',
   'The username/password is not valid': 'El nombre de usuario/contraseña no son válidos',
-  'switchs':'switchs'
+  'switchs':'switchs',
+  'My Switchs' : 'Mis Switchs', 
+	'My Subscriptions' : 'Mis Subscripciones'
 
 }

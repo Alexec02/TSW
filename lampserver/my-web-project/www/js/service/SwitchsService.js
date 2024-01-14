@@ -35,11 +35,11 @@ class SwitchsService {
     });
   }
 
-  addSwicth(switchs) {
+  addSwitch(newSwitch) {
     return $.ajax({
-      url: AppConfig.backendServer+'/rest/switchs',
+      url: AppConfig.backendServer + '/rest/switchs',
       method: 'POST',
-      data: JSON.stringify(switchs),
+      data: JSON.stringify(newSwitch),
       contentType: 'application/json'
     });
   }

@@ -3,7 +3,9 @@
             <div class="col-md-6">
                 <div class="switch-container rounded">
                     <h2 class="text-dark" style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);">
-                        {{i18n "My Switchs"}} <a href="index.php?controller=switchs&amp;action=add&amp;"><button class="btn btn-dark"> +</button></a></h2>
+    {{i18n "My Switchs"}} <a href="#switchs-add"><button class="btn btn-dark"> +</button></a>
+</h2>
+
                     
                     <div class="switch-list-container">
                         {{#each switchs}}
@@ -19,7 +21,7 @@
                     
                     <div class="switch-list-container">
                         {{#each subscriptions}}
-                            <div fronty-component="SubscriptionRowComponent" key="{{publicid}}" model="switchs[{{@index}}]" id="item-{{publicid}}"></div>
+                            <div fronty-component="SubscriptionRowComponent" key="{{public_id}}" model="switchs[{{@index}}]" id="item-{{publicid}}"></div>
                         {{/each}}
                     </div>
                 </div>

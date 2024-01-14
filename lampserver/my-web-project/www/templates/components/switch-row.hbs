@@ -7,27 +7,26 @@
                 {{#if  estado }}
                     <img class="small-image" width="20px" height="20px" src="images/circuloVerde.png">
                 {{else}}
+                    
                     <img class="small-image" width="20px" height="20px" src="images/circuloRojo.png">
                 {{/if}}
             </span>
         </div>
         <div class="col-md-6">
             <!-- Second Column: Buttons (Switch On/Off, Delete) -->
-            <button class="edit-button" item="{{private_id}}">editar</button>
-            <form method="POST" action="index.php?controller=switchs&amp;action=edit" class="d-flex align-items-center">
-                <input type="hidden" name="public_id" value="{{  public_id }}">
-                <input type="hidden" name="private_id" value="{{  private_id }}">
                 {{#if  estado}}
-                    <input type="hidden" name="encendido_hasta" value=0>
-                    <input type="hidden" name="estado" value=0>
-                    <button class="btn btn-danger">{{i18n "Switch off"}}</button>
+                    <input type="hidden" id="encendido_hasta{{private_id}}" name="encendido_hasta" value=0>
+                    <input type="hidden" id="estado{{private_id}}" name="estado" value=0>
+                    <button class="edit-button" item="{{private_id}}">{{i18n "Switch off"}}</button>
+                    <!--<button class="btn btn-danger">{{i18n "Switch off"}}</button>-->
                 {{else}}
-                    <input type="hidden" name="estado" value=1>
+                    <input type="hidden" id="estado{{private_id}}" name="estado" value=1>
                     <span class="text-dark">{{i18n "Time on"}}</span>
-                    <input type="number" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
-                    <button class="btn btn-success">{{i18n "Switch on"}}</button>
+                    <input type="number" id="encendido_hasta{{private_id}}" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
+                    <button class="edit-button" item="{{private_id}}">{{i18n "Switch on"}}</button>
+                    <!--<button class="btn btn-success">{{i18n "Switch on"}}</button>-->
+                    
                 {{/if}}
-            </form>
         </div>
     </div>
     <div class="row mt-3">

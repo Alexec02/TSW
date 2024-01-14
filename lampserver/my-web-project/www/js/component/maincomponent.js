@@ -18,11 +18,11 @@ class MainComponent extends Fronty.RouterComponent {
         component: new SwitchViewComponent(this.switchsModel, this.userModel, this),
         title: 'Switch'
       },*/
-      /*
-      'add-switch': {
+      
+      'switchs-add': {
         component: new SwitchAddComponent(this.switchsModel, this.userModel, this),
         title: 'Add Switch'
-      },*/
+      },
       login: {
         component: new LoginComponent(this.userModel, this),
         title: 'Login'

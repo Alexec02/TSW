@@ -63,7 +63,7 @@ class SubscriptionRest extends BaseRest {
             $switchId = $this->subscriptionMapper->save($subscription);//no se yo si el return que hacemos es correcto
 
             header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            header('Location: '.$_SERVER['REQUEST_URI']."/".$switchId);//xd
+            header('Location: '.$_SERVER['REQUEST_URI']."/".$switchId);//mal también
             header('Content-Type: application/json');
             echo(json_encode(array(
 							//switchid

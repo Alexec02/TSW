@@ -73,8 +73,8 @@ class SwitchRowComponent extends Fronty.ModelComponent {
       this.switchsComponent.switchsService.findSwitch(null,privateid)
       .then((switchs) => {
         this.switchsComponent.switchsModel.setSelectedSwitch(switchs);// no va
-        switchs.encendido_hasta = 0;
-        switchs.estado = 0;
+        switchs.encendido_hasta = $('#encendido_hasta'+privateid).val();;
+        switchs.estado = $('#estado'+privateid).val();
         this.switchsComponent.switchsService.saveSwitch(switchs)
           .fail(() => {
             alert('switch cannot be edited')

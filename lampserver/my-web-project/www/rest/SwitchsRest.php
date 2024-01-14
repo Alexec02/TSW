@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__."/../model/User.php");
+require_once(__DIR__."/../model/UserMapper.php");
 require_once(__DIR__."/../model/Switchs.php");
 require_once(__DIR__."/../model/SwitchsMapper.php");
 require_once(__DIR__."/BaseRest.php");
@@ -58,10 +59,10 @@ class SwitchsRest extends BaseRest {
 
         try {
             $switch->checkIsValidForCreate();
-            $switchId = $this->switchsMapper->save($switch);//no se yo si el return que hacemos es correcto
+            $privateid = $this->switchsMapper->save($switch);
 
             header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            header('Location: '.$_SERVER['REQUEST_URI']."/".$switchId);//xd
+            header('Location: '.$_SERVER['REQUEST_URI']."/".$privateid);//voy a probar con la id privada
             header('Content-Type: application/json');
             echo(json_encode(array(
 							//switchid

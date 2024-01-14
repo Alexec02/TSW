@@ -36,11 +36,15 @@ Promise.all([
     loadTextFile('templates/components/switchs-index.hbs').then((source) =>
       Handlebars.templates.switchsindex = Handlebars.compile(source)),
     loadTextFile('templates/components/switchs-view.hbs').then((source) =>
-      Handlebars.templates.switchview = Handlebars.compile(source)),
+      Handlebars.templates.switchsview = Handlebars.compile(source)),
+      loadTextFile('templates/components/switch-edit.hbs').then((source) =>
+      Handlebars.templates.switchedit = Handlebars.compile(source)),
+      loadTextFile('templates/components/switchs-add.hbs').then((source) =>
+      Handlebars.templates.switchsadd = Handlebars.compile(source)),
     loadTextFile('templates/components/switch-row.hbs').then((source) =>
       Handlebars.templates.switchrow = Handlebars.compile(source)),
     loadTextFile('templates/components/subscription-row.hbs').then((source) =>
-      Handlebars.templates.subscriptionrow = Handlebars.compile(source))
+      Handlebars.templates.subscriptionrow = Handlebars.compile(source)),
   ])
   .then(() => {
     $(() => {
