@@ -137,8 +137,9 @@ class SwitchsRest extends BaseRest {
         }
     }
 
-    public function deleteSwitch($privateId, $currentUser) {
-        $switch = $this->switchsMapper->findById($privateId);
+    public function deleteSwitch($privateId) {
+        $switch = $this->switchsMapper->findById(null,$privateId);
+        $currentUser = parent::authenticateUser();
 
         if ($switch == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');

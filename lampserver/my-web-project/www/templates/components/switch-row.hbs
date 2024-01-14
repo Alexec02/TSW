@@ -32,12 +32,12 @@
     <div class="row mt-3">
         <div class="col-md-12">
             <!-- Third Row: Public ID and Private ID -->
-            <form method="POST" action="index.php?controller=switchs&amp;action=delete" class="d-flex align-items-center">
-                <input type="hidden" name="public_id" value="{{  public_id }}">
-                <input type="hidden" name="private_id" value="{{  private_id }}">
-                <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) {  parentNode.submit() }" class="btn btn-danger">{{i18n "Delete"}}</a>
-                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;public_id={{  public_id }}">{{  public_id }}</a></span>
-                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;private_id={{  private_id }}">{{  private_id }}</a></span>
+            <form submit="remove-button" class="d-flex align-items-center">
+                <input type="hidden" name="public_id" value="{{public_id}}">
+                <input type="hidden" name="private_id" value="{{private_id}}">
+                <button type="submit" class="btn btn-danger remove-button">{{i18n "Delete"}}</button>
+                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;public_id={{public_id}}">{{public_id}}</a></span>
+                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="http://localhost/index.php?controller=switchs&amp;action=view&amp;private_id={{private_id}}">{{private_id}}</a></span>
             </form>
         </div>
     </div>
