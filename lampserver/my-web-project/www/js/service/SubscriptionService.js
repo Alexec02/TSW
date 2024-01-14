@@ -11,9 +11,9 @@ class SubscriptionService {
     return $.get(AppConfig.backendServer+'/rest/subscription/' + publicid + privateid);
   }
 
-  deleteSubscription(publicid,privateid) {
+  deleteSubscription(publicid,user) {
     return $.ajax({
-      url: AppConfig.backendServer+'/rest/subscription/' + publicid + privateid,
+      url: AppConfig.backendServer+'/rest/subscription/' + publicid +'/'+ user,
       method: 'DELETE'
     });
   }

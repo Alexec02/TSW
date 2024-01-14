@@ -15,10 +15,8 @@
             {{else}}
                 <span class="text-dark">{{i18n "Last modification"}}: {{ tiempo_modificacion }}</span>
             {{/if}}
-            <form method="POST" action="index.php?controller=subscription&amp;action=delete" style="display: inline">
-                <input type="hidden" name="public_id" value="{{ public_id }}">
-                <a href="#" onclick="if (confirm('{{i18n "are you sure?"}}')) { parentNode.submit() }" class="btn btn-danger mt-2">{{i18n "Delete"}}</a>
-            </form>
+            
+                <button type="submit" user="{{currentUser}}" item="{{private_id}}" class="btn btn-danger remove-button">{{i18n "Delete"}}</button>
         </div>
     </div>
 </div>

@@ -109,10 +109,11 @@ class SubscriptionRest extends BaseRest {
         echo(json_encode($subscription_array));
     }
 
-    public function deleteSubscription($publicId) {
-        $currentUser = parent::authenticateUser();
+    public function deleteSubscription($publicId,$currentUser) {
+        //$currentUser = parent::authenticateUser();
+        
         $subscription = $this->subscriptionMapper->findByIdUser($publicId, $currentUser);
-
+        
         if ($subscription == NULL) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             echo("Switch with public_id ".$publicId." not found");
@@ -137,4 +138,4 @@ URIDispatcher::getInstance()
     ->map("GET",    "/subscription", array($subscriptionRest,"getSubscriptions"))
     ->map("GET",    "/subscription/$1", array($subscriptionRest,"readSubscription"))
     ->map("POST",   "/subscription", array($subscriptionRest,"createSubscription"))
-    ->map("DELETE", "/subscription/$1", array($subscriptionRest,"deleteSubscription"));
+    ->map("DELETE", "/subscription/$1/$2", array($subscriptionRest,"deleteSubscription"));
