@@ -22,12 +22,18 @@ class SwitchViewComponent extends Fronty.ModelComponent {
   loadSwitch(publicid, privateid) {
     if (publicid || privateid) {
       this.switchsService.findSwitch(publicid, privateid)
-        .then((switchData) => {
-          console.log('Switch data:', switchData);
+        .then((item) => {
+          console.log('Switch data:', item);
 
           // Assuming setSelectedSwitch is a method in your switchsModel
-          this.switchsModel.setSelectedSwitch(switchData);
-
+          if (privateid){
+            this.switchsModel.setSelectedSwitch(new SwitchModel(null, item.private_id, item.nombre, item.estado, item.tiempo_modificacion, item.encendido_hasta, item.descripcion, item.alias));
+          }else{
+            this.switchsModel.setSelectedSwitch(new SwitchModel(item.public_id, null, item.nombre, item.estado, item.tiempo_modificacion, item.encendido_hasta, item.descripcion, item.alias));
+          }
+          //this.switchsModel.setSelectedSwitch(new SwitchModel(item.public_id, null, item.nombre, item.estado, item.tiempo_modificacion, item.encendido_hasta, item.descripcion, item.alias));
+          
+          
           // Render the template with the updated data
           this.render();
         })

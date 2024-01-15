@@ -116,6 +116,7 @@ class SubscriptionRowComponent extends Fronty.ModelComponent {
     this.addEventListener('click', '.remove-button', (event) => {
       if (confirm(I18n.translate('Are you sure?'))) {
          var publicid = event.target.getAttribute('item');
+         console.log(publicid);
          this.switchsComponent.subscriptionService.deleteSubscription(publicid,this.userModel.currentUser)  
                 .fail(() => {
              alert('switch cannot be deleted')
