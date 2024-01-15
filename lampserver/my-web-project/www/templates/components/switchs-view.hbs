@@ -1,57 +1,74 @@
-
-<body>
+<span>
+  <body>
     <div class="container mt-3 text-dark">
-        <h1 style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);" >{{i18n "Switch"}}: {{switch.nombre}}</h1>
-        <em>{{i18n "by"}} {{switch.alias}}</em>
-        <h2 style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);" >{{i18n "Description"}}:</h2>
-        <p>{{switch.descripcion}}</p>
-        
-        {{#if switch.encendido }}
-            <div class="d-flex align-items-center">
-                <img class="img-thumbnail mr-2" src="images/circuloRojo.png" style="width: 24px; height: 24px;">
-                <span>{{i18n "Last modification"}}: {{switch.encendido_hasta}}</span>
-            </div>
-        {{else}}
-            <div class="d-flex align-items-center">
-                <img class="img-thumbnail mr-2" src="images/circuloVerde.png" style="width: 24px; height: 24px;">
-                <span>{{i18n "Time on"}}: {{switch.tiempo_encendido}}</span>
-            </div>
+      <h1 style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);" >{{i18n "Switch"}}: {{switchsModel.selectedSwitch.nombre}}</h1>
+      <em>{{i18n "by"}} {{switchsModel.selectedSwitch.alias}}</em>
+      <h2 style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);" >{{i18n "Description"}}:</h2>
+      <p>{{switchsModel.selectedSwitch.descripcion}}</p>
+
+      {{#if switchsModel.selectedSwitch.encendido }}
+        <div class="d-flex align-items-center">
+          <img class="img-thumbnail mr-2" src="images/circuloVerde.png" style="width: 24px; height: 24px;">
+          <span>{{i18n "Last modification"}}: {{switchsModel.selectedSwitch.tiempo_modificacion}}</span>
+        </div>
+      {{else}}
+        <div class="d-flex align-items-center">
+          <img class="img-thumbnail mr-2" src="images/circuloRojo.png" style="width: 24px; height: 24px;">
+          <span>{{i18n "Time on"}}: {{switchsModel.selectedSwitch.tiempo_modificacion}}</span>
+        </div>
+      {{/if}}
+
+      {{#if switchsModel.selectedSwitch.public_id}}
+        {{#if user.currentUser}}
+          <form method="POST" action="index.php?controller=subscription&amp;action=add" id="add_subscription_{{switchsModel.selectedSwitch.public_id}}_{{switchsModel.selectedSwitch.private_id}}" style="display: inline">
+            <input type="hidden" name="public_id" value="{{switchsModel.selectedSwitch.public_id}}">
+            <input type="hidden" name="private_id" value="{{switchsModel.selectedSwitch.private_id}}">
+            <button type="submit" class="btn btn-dark">{{i18n "Subscribe"}}</button>
+          </form>
         {{/if}}
-        
-        {{#if switch.public_id}}
-            {{#if currentUser}}
-                <form method="POST" action="index.php?controller=subscription&amp;action=add" id="add_subscription_{{switch.public_id}}_{{switch.private_id}}" style="display: inline">
-                    <input type="hidden" name="public_id" value="{{switch.public_id}}">
-                    <input type="hidden" name="private_id" value="{{switch.private_id}}">
-                    <button type="submit" class="btn btn-dark">{{i18n "Subscribe"}}</button>
-                </form>
-            {{/if}}
-        {{else}} 
-            {{#if switch.private_id}}
-                <li class="switch-item" data-state="apagar">
-                    {{#if switch.encendido}}
-                        <form method="POST" action="index.php?controller=switchs&amp;action=edit" id="edit_switch_{{switch.public_id}}_{{switch.private_id}}" style="display: inline">
-                            <input type="hidden" name="public_id" value="{{switch.public_id}}">
-                            <input type="hidden" name="private_id" value="{{switch.private_id}}">
-                            <input type="hidden" name="estado" value=1>
-                            <div class="mb-3">
-                                <label for="encendido_hasta">{{i18n "Time on"}}</label>
-                                <input type="number" class="form-control" name="encendido_hasta" value="60" min="1" max="120">
-                            </div>
-                            <button type="submit" class="btn btn-success">{{i18n "Switch on"}}</button>
-                        </form>
-                    {{else}}
-                        <form method="POST" action="index.php?controller=switchs&amp;action=edit" id="edit_switch_{{switch.public_id}}_{{switch.private_id}}" style="display: inline">
-                            <input type="hidden" name="public_id" value="{{switch.public_id}}">
-                            <input type="hidden" name="private_id" value="{{switch.private_id}}">
-                            <input type="hidden" name="encendido_hasta" value=0>
-                            <input type="hidden" name="estado" value=0>
-                            <button type="submit" class="btn btn-danger">{{i18n "Switch off"}}</button>
-                        </form>
-                    {{/if}}
-                </li>
-            {{/if}}
+      {{else}} 
+        {{#if switchsModel.selectedSwitch.private_id}}
+          <div class="switch-item-container border p-3 mb-4 bg-light shadow rounded switch-item-container" data-state="{{#if switchsModel.selectedSwitch.encendido}}encendido{{else}}apagar{{/if}}" key="{{switchsModel.selectedSwitch.public_id}}">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <!-- First Column: Name, Circle Image, and Time On -->
+                <h4 class="text-dark">{{switchsModel.selectedSwitch.nombre}}</h4>
+                <span class="text-dark">
+                  {{#if switchsModel.selectedSwitch.estado}}
+                    <img class="small-image" width="20px" height="20px" src="images/circuloVerde.png">
+                  {{else}}
+                    <img class="small-image" width="20px" height="20px" src="images/circuloRojo.png">
+                  {{/if}}
+                </span>
+              </div>
+              <div class="col-md-6">
+                <!-- Second Column: Buttons (Switch On/Off, Delete) -->
+                {{#if switchsModel.selectedSwitch.estado}}
+                  <input type="hidden" id="encendido_hasta{{switchsModel.selectedSwitch.private_id}}" name="encendido_hasta" value=0>
+                  <input type="hidden" id="estado{{switchsModel.selectedSwitch.private_id}}" name="estado" value=0>
+                  <button class="edit-button" item="{{switchsModel.selectedSwitch.private_id}}">{{i18n "Switch off"}}</button>
+                {{else}}
+                  <input type="hidden" id="estado{{switchsModel.selectedSwitch.private_id}}" name="estado" value=1>
+                  <span class="text-dark">{{i18n "Time on"}}: {{switchsModel.selectedSwitch.tiempo_modificacion}}</span>
+                  <input type="number" id="encendido_hasta{{switchsModel.selectedSwitch.private_id}}" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
+                  <button class="edit-button" item="{{switchsModel.selectedSwitch.private_id}}">{{i18n "Switch on"}}</button>
+                {{/if}}
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <!-- Third Row: Public ID and Private ID -->
+                <input type="hidden" name="public_id" value="{{switchsModel.selectedSwitch.public_id}}">
+                <input type="hidden" name="private_id" value="{{switchsModel.selectedSwitch.private_id}}">
+                <button type="submit" item="{{switchsModel.selectedSwitch.private_id}}" class="btn btn-danger remove-button">{{i18n "Delete"}}</button>
+                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="#switchs-view?public_id={{switchsModel.selectedSwitch.public_id}}">{{switchsModel.selectedSwitch.public_id}}</a></span>
+                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="#switchs-view?private_id={{switchsModel.selectedSwitch.private_id}}">{{switchsModel.selectedSwitch.private_id}}</a></span>
+              </div>
+            </div>
+          </div>
         {{/if}}
+      {{/if}}
     </div>
-</body>
+  </body>
 </html>
+</span>

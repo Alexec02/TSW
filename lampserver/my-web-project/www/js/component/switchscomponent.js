@@ -68,27 +68,29 @@ class SwitchRowComponent extends Fronty.ModelComponent {
 
     this.addEventListener('click', '.edit-button', (event) => {
       var privateid = event.target.getAttribute('item');
-      //this.loadSwitch(privateid);
-      this.switchsComponent.switchsService.findSwitch(null,privateid)
-      .then((switchs) => {
-        this.switchsComponent.switchsModel.setSelectedSwitch(switchs);// no va
-        switchs.encendido_hasta = $('#encendido_hasta'+privateid).val();;
-        switchs.estado = $('#estado'+privateid).val();
-        this.switchsComponent.switchsService.saveSwitch(switchs)
-          .fail(() => {
-            alert('switch cannot be edited')
-          })
-          .always(() => {
-            this.switchsComponent.updateSwitchs();
-          });
-      });
-        
-        
-      });
-      //console.log(this.switchsComponent.switchsModel.selectedSwitch);
       
+      // Find the switch and update the model
+      this.switchsComponent.switchsService.findSwitch(null, privateid)
+        .then((switchData) => {
+          // Update the model
+          this.switchsComponent.switchsModel.setSelectedSwitch(switchData);
+    
+          // Update the properties based on user input
+          switchData.encendido_hasta = $('#encendido_hasta' + privateid).val();
+          switchData.estado = $('#estado' + privateid).val();
+    
+          // Save the updated switch
+          this.switchsComponent.switchsService.saveSwitch(switchData)
+            .then(() => {
+              // Successfully saved, update the view
+              this.switchsComponent.updateSwitchs();
+            })
+            .catch(() => {
+              alert('Switch cannot be edited.');
+            });
+        });
+    });
   }
-
   loadSwitch(privateid) {
     this.switchsComponent.switchsService.findSwitch(null,privateid)
       .then((switchs) => {

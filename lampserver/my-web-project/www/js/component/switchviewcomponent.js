@@ -1,47 +1,38 @@
 class SwitchViewComponent extends Fronty.ModelComponent {
   constructor(switchsModel, userModel, router) {
-    super(Handlebars.templates.switchview, switchsModel);
+    super(Handlebars.templates.switchsview, switchsModel);
 
-    this.switchsModel = switchsModel; // switchs
-    this.userModel = userModel; // global
+    this.switchsModel = switchsModel;
+    this.userModel = userModel;
     this.addModel('user', userModel);
     this.router = router;
 
     this.switchsService = new SwitchsService();
 
-    /*this.addEventListener('click', '#savecommentbutton', () => {
-      var publicid = this.router.getRouteQueryParam('publicid');
-      var privateid = this.router.getRouteQueryParam('privateid');
-      this.switchsService.createComment(publicid, privateid, {
-          content: $('#commentcontent').val()
-        })
-        .then(() => {
-          $('#commentcontent').val('');
-          this.loadSwitch(publicid, privateid);
-        })
-        .fail((xhr, errorThrown, statusText) => {
-          if (xhr.status == 400) {
-            this.switchsModel.set(() => {
-              this.switchsModel.commentErrors = xhr.responseJSON;
-            });
-          } else {
-            alert('an error has occurred during request: ' + statusText + '.' + xhr.responseText);
-          }
-        });
-    });*/
+    console.log('SwitchViewComponent constructor called');
   }
 
   onStart() {
-    var publicid = this.router.getRouteQueryParam('publicid');
-    var privateid = this.router.getRouteQueryParam('privateid');
-    this.loadSwitch(publicid,privateid);
+    console.log('SwitchViewComponent onStart called');
+    var publicid = this.router.getRouteQueryParam('public_id');
+    var privateid = this.router.getRouteQueryParam('private_id');
+    this.loadSwitch(publicid, privateid);
   }
 
-  loadSwitch(publicid,privateid) {
-    if (publicid != null || privateid != null) {
-      this.switchsService.findSwitch(publicid,privateid)
-        .then((switchs) => {
-          this.switchsModel.setSelectedSwitch(switchs);
+  loadSwitch(publicid, privateid) {
+    if (publicid || privateid) {
+      this.switchsService.findSwitch(publicid, privateid)
+        .then((switchData) => {
+          console.log('Switch data:', switchData);
+
+          // Assuming setSelectedSwitch is a method in your switchsModel
+          this.switchsModel.setSelectedSwitch(switchData);
+
+          // Render the template with the updated data
+          this.render();
+        })
+        .catch((error) => {
+          console.error('Error fetching switch data:', error);
         });
     }
   }
