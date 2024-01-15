@@ -6,15 +6,15 @@
       <h2 style="text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);" >{{i18n "Description"}}:</h2>
       <p>{{selectedSwitch.descripcion}}</p>
 
-      {{#if selectedSwitch.encendido }}
+      {{#if selectedSwitch.estado }}
         <div class="d-flex align-items-center">
           <img class="img-thumbnail mr-2" src="images/circuloVerde.png" style="width: 24px; height: 24px;">
-          <span>{{i18n "Last modification"}}: {{selectedSwitch.tiempo_modificacion}}</span>
+          <span>{{i18n "Time on"}}: {{selectedSwitch.encendido_hasta}}</span>
         </div>
       {{else}}
         <div class="d-flex align-items-center">
           <img class="img-thumbnail mr-2" src="images/circuloRojo.png" style="width: 24px; height: 24px;">
-          <span>{{i18n "Time on"}}: {{selectedSwitch.tiempo_modificacion}}</span>
+          <span>{{i18n "Last modification"}}: {{selectedSwitch.tiempo_modificacion}}</span>
         </div>
       {{/if}}
 
@@ -28,44 +28,18 @@
         {{/if}}
       {{else}} 
         {{#if selectedSwitch.private_id}}
-          <div class="switch-item-container border p-3 mb-4 bg-light shadow rounded switch-item-container" data-state="{{#if selectedSwitch.encendido}}encendido{{else}}apagar{{/if}}" key="{{selectedSwitch.public_id}}">
-            <div class="row align-items-center">
-              <div class="col-md-6">
-                <!-- First Column: Name, Circle Image, and Time On -->
-                <h4 class="text-dark">{{selectedSwitch.nombre}}</h4>
-                <span class="text-dark">
-                  {{#if selectedSwitch.estado}}
-                    <img class="small-image" width="20px" height="20px" src="images/circuloVerde.png">
-                  {{else}}
-                    <img class="small-image" width="20px" height="20px" src="images/circuloRojo.png">
-                  {{/if}}
-                </span>
-              </div>
-              <div class="col-md-6">
-                <!-- Second Column: Buttons (Switch On/Off, Delete) -->
+          
                 {{#if selectedSwitch.estado}}
                   <input type="hidden" id="encendido_hasta{{selectedSwitch.private_id}}" name="encendido_hasta" value=0>
                   <input type="hidden" id="estado{{selectedSwitch.private_id}}" name="estado" value=0>
                   <button class="edit-button" item="{{selectedSwitch.private_id}}">{{i18n "Switch off"}}</button>
                 {{else}}
                   <input type="hidden" id="estado{{selectedSwitch.private_id}}" name="estado" value=1>
-                  <span class="text-dark">{{i18n "Time on"}}: {{selectedSwitch.tiempo_modificacion}}</span>
+                  <span class="text-dark">{{i18n "Time on"}}</span>
                   <input type="number" id="encendido_hasta{{selectedSwitch.private_id}}" name="encendido_hasta" value=60 min=1 max=120 class="timeon form-control mx-2">
                   <button class="edit-button" item="{{selectedSwitch.private_id}}">{{i18n "Switch on"}}</button>
                 {{/if}}
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <!-- Third Row: Public ID and Private ID -->
-                <input type="hidden" name="public_id" value="{{selectedSwitch.public_id}}">
-                <input type="hidden" name="private_id" value="{{selectedSwitch.private_id}}">
-                <button type="submit" item="{{selectedSwitch.private_id}}" class="btn btn-danger remove-button">{{i18n "Delete"}}</button>
-                <span class="ml-2 text-dark">{{i18n "Public ID"}}: <a href="#switchs-view?public_id={{selectedSwitch.public_id}}">{{selectedSwitch.public_id}}</a></span>
-                <span class="ml-2 text-dark">{{i18n "Private ID"}}: <a href="#switchs-view?private_id={{selectedSwitch.private_id}}">{{selectedSwitch.private_id}}</a></span>
-              </div>
-            </div>
-          </div>
+              
         {{/if}}
       {{/if}}
     </div>
